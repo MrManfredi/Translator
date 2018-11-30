@@ -1,0 +1,1 @@
+The translator includes lexical analyser, syntactic analyser and code generator

@@ -1,0 +1,14 @@
+int indexInTable
+indexInTable = 10
+if (indexInTable < 20)
+{
+    out << indexInTable
+    repeat
+    {
+        if (a !! 50)
+        {
+            a = 50 + 10
+        }
+        out << indexInTable * 20
+    } until(indexInTable < 20)
+}
