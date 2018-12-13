@@ -20,6 +20,7 @@ public class LexicalAnalyzer {
     private int indexLabel;
     private int line;
     private char tmp;
+    private String lastType; // using only after isDeclaration() method
 
     public LexicalAnalyzer()
     {
@@ -89,6 +90,12 @@ public class LexicalAnalyzer {
         indexConst = 0;
         indexLabel = 0;
         line = 1;
+
+        lexicalExceptions.clear();
+        tokenTable.clear();
+        identTable.clear();
+        constTable.clear();
+        labelTable.clear();
     }
 
     public void run(String text)
@@ -96,6 +103,7 @@ public class LexicalAnalyzer {
         init();
         code = text + " ";
         state1();
+        checkErrors();
     }
 
     private void state1()
@@ -133,6 +141,7 @@ public class LexicalAnalyzer {
             }
             else {
                 lexicalExceptions.add(new UnknownSymbolException(tmp, line));
+                nextChar();
             }
             clearBuilder();
         }
@@ -166,8 +175,16 @@ public class LexicalAnalyzer {
                 }
                 else
                 {
+                    if (isDeclaration())
+                    {
+                        temp = new Identifier(builder.toString(), ++indexIdent, lastType);
+                    }
+                    else
+                    {
+                        lexicalExceptions.add(new VariableUsedWithoutDeclarationException(line, builder.toString()));
+                        temp = new Identifier(builder.toString(), ++indexIdent, "Not Declared");
+                    }
                     // creating new identifier
-                    temp = new Identifier(builder.toString(), ++indexIdent, tokenTable.contains(new Element(line, "int", keywords.get("int"), -1)) ? "int" : "");
                     identTable.add(temp);
                 }
                 addToken(temp);
@@ -318,17 +335,17 @@ public class LexicalAnalyzer {
 
     public void addToken(Identifier ident)
     {
-        tokenTable.add(new Element(line, builder.toString(), LexemeType.IDENT.getValue(), indexIdent));
+        tokenTable.add(new Element(line, builder.toString(), LexemeType.IDENT.getValue(), ident.getIndex()));
     }
 
     public void addToken(Constant constant)
     {
-        tokenTable.add(new Element(line, builder.toString(), LexemeType.CONST.getValue(), indexConst));
+        tokenTable.add(new Element(line, builder.toString(), LexemeType.CONST.getValue(), constant.getIndex()));
     }
 
     public void addToken(Label label)
     {
-        tokenTable.add(new Element(line, builder.toString(), LexemeType.LABEL.getValue(), indexLabel));
+        tokenTable.add(new Element(line, builder.toString(), LexemeType.LABEL.getValue(), label.getIndex()));
     }
 
     public Identifier getIdentifier(String identifier)
@@ -401,7 +418,7 @@ public class LexicalAnalyzer {
         for (Label tmp : labelTable) {
             if (tmp.getLabel().equals(label))
             {
-                if (tokenTable.get(tokenTable.size() - 1).equals("goto"))
+                if (tokenTable.get(tokenTable.size()-1).getText().equals("goto"))
                 {
                     if (tmp.getLineFrom() == -1)
                     {
@@ -424,6 +441,36 @@ public class LexicalAnalyzer {
                     }
                 }
 
+            }
+        }
+    }
+
+    private boolean isDeclaration()
+    {
+        for (Element tmp : tokenTable)
+        {
+            if (tmp.getLine() == line)
+            {
+                if (tmp.getCode() == IdentifierType.INT.getValue())
+                {
+                    lastType = tmp.getText();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void checkErrors() {
+        for (Label tmp : labelTable)
+        {
+            if (tmp.getLineTo() == -1)
+            {
+                lexicalExceptions.add(new LabelNotDeclaratedException(-1, tmp.getLabel()));
             }
         }
     }

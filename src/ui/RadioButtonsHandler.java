@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 public class RadioButtonsHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
+        MainWindow.table.setVisible(true);
         LexicalAnalyzer lexer = MainWindow.getLexicalAnalyzer();
         if (MainWindow.allTokens.isSelected())
         {

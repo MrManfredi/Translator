@@ -14,19 +14,16 @@ public class lexAnalyzeButtonHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         MainWindow.getLexicalAnalyzer().run(MainWindow.getCode().getText());
-        MainWindow.getLexicalAnalyzer().getLexicalExceptions();
-        MainWindow.setInfo("Hello!");
+        MainWindow.setInfo(getExceptionsData(MainWindow.getLexicalAnalyzer()));
+        MainWindow.table.setVisible(false);
     }
 
-
-    private Object[][] getExceptionsData(LexicalAnalyzer lexer) {
-        Stream<LexicalException> exceptionStream = lexer.getLexicalExceptions().stream();
-        AtomicInteger i = new AtomicInteger(1);
-        List<Object[]> exceptions = exceptionStream.map(e -> new Object[]{i.getAndIncrement(),
-                e.getMessage()}).collect(Collectors.toList());
-
-        Object[][] data = new Object[exceptions.size()][];
-        exceptions.toArray(data);
-        return data;
+    private String getExceptionsData(LexicalAnalyzer lexer) {
+        StringBuilder builder = new StringBuilder();
+        for (LexicalException tmp : lexer.getLexicalExceptions())
+        {
+            builder.append(tmp.getMessage()).append("\n");
+        }
+        return builder.toString();
     }
 }

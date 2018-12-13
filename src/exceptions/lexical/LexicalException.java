@@ -10,7 +10,12 @@ public abstract class LexicalException {
     LexicalException(int line, String message)
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("Lexical exception in line: ").append(line).append("! ").append(message);
+
+        if (line != -1)
+        {
+            sb.append("Lexical exception in line: ").append(line).append(". ");
+        }
+        sb.append(message);
         this.message = sb.toString();
     }
 

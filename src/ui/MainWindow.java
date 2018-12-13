@@ -17,8 +17,10 @@ public class MainWindow {
     private static JButton save;
     private static JLabel codeLabel;
     private static JTextArea code;
+    static JScrollPane codeScrollPane;
     private static JLabel infoLabel;
     private static JTextArea info;
+    static JScrollPane infoScrollPane;
 
     // right part
     static JRadioButton allTokens;
@@ -53,8 +55,10 @@ public class MainWindow {
         save = new JButton("Save");
         codeLabel = new JLabel("Enter your code here:");
         code = new JTextArea("");
+        codeScrollPane = new JScrollPane(code);
         infoLabel = new JLabel("Information:");
         info = new JTextArea(5, 50);
+        infoScrollPane = new JScrollPane(info);
 
         // right part
         allTokens = new JRadioButton("Tokens");
@@ -91,7 +95,7 @@ public class MainWindow {
         topPanel.add(codeLabel);
         leftPanel.add(topPanel, BorderLayout.NORTH);
         // center
-        leftPanel.add(code, BorderLayout.CENTER);
+        leftPanel.add(codeScrollPane, BorderLayout.CENTER);
         // bottom
         JPanel bottomPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
@@ -113,8 +117,8 @@ public class MainWindow {
         con.gridheight = 5;
         con.insets = new Insets(2, 0, 0, 0);
         bottomPanel.add(infoLabel);
-        gbl.setConstraints(info, con);
-        bottomPanel.add(info);
+        gbl.setConstraints(infoScrollPane, con);
+        bottomPanel.add(infoScrollPane);
         leftPanel.add(bottomPanel, BorderLayout.SOUTH);
         frame.add(leftPanel);
         // right panel
