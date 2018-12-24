@@ -1,6 +1,7 @@
 package ui;
 
 import lexer.LexicalAnalyzer;
+import parser.SyntaxAnalyzer;
 
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
@@ -11,6 +12,7 @@ import java.awt.*;
 public class MainWindow {
     // variables
     private static LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
+    private static SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer();
 
     // left part
     private static JButton open;
@@ -46,6 +48,10 @@ public class MainWindow {
 
     public static LexicalAnalyzer getLexicalAnalyzer() {
         return lexicalAnalyzer;
+    }
+
+    public static SyntaxAnalyzer getSyntaxAnalyzer() {
+        return syntaxAnalyzer;
     }
 
     public MainWindow()
@@ -119,6 +125,7 @@ public class MainWindow {
         bottomPanel.add(infoLabel);
         gbl.setConstraints(infoScrollPane, con);
         bottomPanel.add(infoScrollPane);
+        info.setEditable(false);
         leftPanel.add(bottomPanel, BorderLayout.SOUTH);
         frame.add(leftPanel);
         // right panel
@@ -151,6 +158,7 @@ public class MainWindow {
         analyzButtonsPanel.add(synAnalyze);
         rightPanel.add(analyzButtonsPanel, BorderLayout.SOUTH);
         lexAnalyze.addActionListener(new lexAnalyzeButtonHandler());
+        synAnalyze.addActionListener(new synAnalyzeButtonHandler());
         frame.add(rightPanel);
         // characteristics
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

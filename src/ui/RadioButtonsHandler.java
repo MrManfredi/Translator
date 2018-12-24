@@ -15,74 +15,75 @@ import java.util.stream.Stream;
 public class RadioButtonsHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-        MainWindow.table.setVisible(true);
-        LexicalAnalyzer lexer = MainWindow.getLexicalAnalyzer();
-        if (MainWindow.allTokens.isSelected())
-        {
-            String[] columnNames = {"#",
-                    "# рядка",
-                    "Лексема",
-                    "LEX code",
-                    "IDN code",
-                    "CON code",
-                    "LBL code"};
+        if (MainWindow.getLexicalAnalyzer().getLexicalExceptions().isEmpty()) {
+            MainWindow.table.setVisible(true);
+            LexicalAnalyzer lexer = MainWindow.getLexicalAnalyzer();
+            if (MainWindow.allTokens.isSelected()) {
+                String[] columnNames = {"#",
+                        "# рядка",
+                        "Лексема",
+                        "LEX code",
+                        "IDN code",
+                        "CON code",
+                        "LBL code"};
 
-            Object[][] data = getLexemesData(lexer);
+                Object[][] data = getLexemesData(lexer);
 
-            TableModel model = new DefaultTableModel(data, columnNames) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
-            MainWindow.table.setModel(model);
-            MainWindow.table.getTableHeader().setUpdateTableInRealTime(false);
+                TableModel model = new DefaultTableModel(data, columnNames) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                MainWindow.table.setModel(model);
+                MainWindow.table.getTableHeader().setUpdateTableInRealTime(false);
 
-            setColumnWidth();
-        } else if (MainWindow.identifiers.isSelected()) {
-            String[] columnNames = {"#",
-                    "Name",
-                    "Type",};
-            Object[][] data = getIdentifiersData(lexer);
+                setColumnWidth();
+            } else if (MainWindow.identifiers.isSelected()) {
+                String[] columnNames = {"#",
+                        "Name",
+                        "Type",};
+                Object[][] data = getIdentifiersData(lexer);
 
-            TableModel model = new DefaultTableModel(data, columnNames) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
-            MainWindow.table.setModel(model);
-            MainWindow.table.getTableHeader().setUpdateTableInRealTime(false);
-        } else if (MainWindow.constants.isSelected()) {
-            String[] columnNames = {"#",
-                    "Index",
-                    "Value",};
-            Object[][] data = getConstantsData(lexer);
+                TableModel model = new DefaultTableModel(data, columnNames) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                MainWindow.table.setModel(model);
+                MainWindow.table.getTableHeader().setUpdateTableInRealTime(false);
+            } else if (MainWindow.constants.isSelected()) {
+                String[] columnNames = {"#",
+                        "Index",
+                        "Value",};
+                Object[][] data = getConstantsData(lexer);
 
-            TableModel model = new DefaultTableModel(data, columnNames) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
-            MainWindow.table.setModel(model);
-            MainWindow.table.getTableHeader().setUpdateTableInRealTime(false);
-        } else if (MainWindow.labels.isSelected()) {
-            String[] columnNames = {"#",
-                    "Name",
-                    "Index",
-                    "From Line",
-                    "To Line"};
-            Object[][] data = getLabelsData(lexer);
+                TableModel model = new DefaultTableModel(data, columnNames) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                MainWindow.table.setModel(model);
+                MainWindow.table.getTableHeader().setUpdateTableInRealTime(false);
+            } else if (MainWindow.labels.isSelected()) {
+                String[] columnNames = {"#",
+                        "Name",
+                        "Index",
+                        "From Line",
+                        "To Line"};
+                Object[][] data = getLabelsData(lexer);
 
-            TableModel model = new DefaultTableModel(data, columnNames) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
-            MainWindow.table.setModel(model);
-            MainWindow.table.getTableHeader().setUpdateTableInRealTime(false);
+                TableModel model = new DefaultTableModel(data, columnNames) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                MainWindow.table.setModel(model);
+                MainWindow.table.getTableHeader().setUpdateTableInRealTime(false);
+            }
         }
     }
 

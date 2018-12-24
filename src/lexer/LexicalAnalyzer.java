@@ -103,7 +103,14 @@ public class LexicalAnalyzer {
         init();
         code = text + " ";
         state1();
-        checkErrors();
+        checkLabelErrors();
+        if (!lexicalExceptions.isEmpty())
+        {
+            tokenTable.clear();
+            identTable.clear();
+            constTable.clear();
+            labelTable.clear();
+        }
     }
 
     private void state1()
@@ -166,7 +173,7 @@ public class LexicalAnalyzer {
                 if (isExistIdentifier(builder.toString()))
                 {
                     // перевірка на повторну декларацію
-                    if (tokenTable.contains(new Element(line, "int", keywords.get("int"), -1)))
+                    if (isDeclaration())
                     {
                         lexicalExceptions.add(new VariableReDeclarationException(line, builder.toString()));
                     }
@@ -465,7 +472,7 @@ public class LexicalAnalyzer {
         return false;
     }
 
-    private void checkErrors() {
+    private void checkLabelErrors() {
         for (Label tmp : labelTable)
         {
             if (tmp.getLineTo() == -1)
