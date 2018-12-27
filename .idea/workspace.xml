@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b4d1c58e-4d7d-4791-b44b-2402d552ae26" name="Default Changelist" comment="Pre alpha version of parser. Need debugging.">
+    <list default="true" id="b4d1c58e-4d7d-4791-b44b-2402d552ae26" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/SyntaxAnalyzer.java" afterDir="false" />
     </list>
@@ -72,9 +72,9 @@
     <session id="-761087766">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="11" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.3" value="2" />
           <entry key="project.open.time.46" value="1" />
           <entry key="project.open.time.47" value="1" />
           <entry key="project.open.time.55" value="1" />
@@ -82,7 +82,7 @@
           <entry key="project.open.time.66" value="1" />
           <entry key="project.open.time.8" value="2" />
           <entry key="project.open.time.91" value="1" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -92,24 +92,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="14333" />
+          <entry key="java" value="14968" />
           <entry key="txt" value="139" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="14333" />
+          <entry key="JAVA" value="14968" />
           <entry key="PLAIN_TEXT" value="139" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="58" />
+          <entry key="java" value="60" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="58" />
+          <entry key="JAVA" value="60" />
         </counts>
       </usages-collector>
     </session>
@@ -133,33 +133,56 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/parser/SyntaxAnalyzer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="396" column="28" selection-start-line="396" selection-start-column="28" selection-end-line="396" selection-end-column="28" />
+            <state relative-caret-position="-768">
+              <caret line="185" column="100" selection-start-line="185" selection-start-column="100" selection-end-line="185" selection-end-column="100" />
               <folding>
                 <element signature="method#SyntaxAnalyzer#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#init#0;class#SyntaxAnalyzer#0" />
+                <element signature="method#run#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#declarationsList#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#declaration#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#type#0;class#SyntaxAnalyzer#0" />
-                <element signature="e#2945#2946#0" expanded="true" />
-                <element signature="e#3019#3020#0" expanded="true" />
                 <element signature="method#coma#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#identifiersList#0;class#SyntaxAnalyzer#0" />
-                <element signature="method#conditionalTransition#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#conditionWrapper#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#condition#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#logicalExpressionWrapper#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" />
+                <element signature="method#cycle#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#appropriation#0;class#SyntaxAnalyzer#0" />
-                <element signature="method#multiplier#0;class#SyntaxAnalyzer#0" />
+                <element signature="method#term#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#input#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#output#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#ternaryStatement#0;class#SyntaxAnalyzer#0" />
-                <element signature="e#21535#21536#0" expanded="true" />
-                <element signature="e#21609#21610#0" expanded="true" />
+                <element signature="e#21532#21533#0" expanded="true" />
+                <element signature="e#21606#21607#0" expanded="true" />
                 <element signature="method#isExistNextLex#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#hasNextLexInLine#0;class#SyntaxAnalyzer#0" />
                 <element signature="method#nextLex#0;class#SyntaxAnalyzer#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/lexer/Element.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
+              <folding>
+                <element signature="e#644#645#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ui/synAnalyzeButtonHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -187,6 +210,13 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>token</find>
+      <find>statement</find>
+      <find>Statement l</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -291,15 +321,15 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545710873988" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DB/MyShop" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545887579523" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -368,7 +398,8 @@
       <workItem from="1545575212399" duration="636000" />
       <workItem from="1545584373041" duration="24259000" />
       <workItem from="1545652525001" duration="21229000" />
-      <workItem from="1545698316990" duration="11967000" />
+      <workItem from="1545698316990" duration="12253000" />
+      <workItem from="1545871936614" duration="16220000" />
     </task>
     <task id="LOCAL-00001" summary="Pre alpha version of the lexical analyzer by a finite automaton. Added primitive graphical user interface.">
       <created>1544658108407</created>
@@ -391,11 +422,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545655720523</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Pre alpha version of parser. Need debugging.">
+      <created>1545710944091</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1545710944091</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="206574000" />
+    <option name="totallyTimeSpent" value="223080000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -410,7 +448,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20953101" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21255673" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -419,7 +457,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295082" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4977307" visible="true" weight="0.29016393" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4977307" weight="0.29016393" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49920633" weight="0.34590164" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -432,7 +470,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Database" order="1" weight="0.32980332" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.24962178" />
       <window_info anchor="right" id="Palette" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="right" id="Theme Preview" order="6" />
@@ -481,7 +519,8 @@
     <MESSAGE value="Pre alpha version of the lexical analyzer by a finite automaton. Added primitive graphical user interface." />
     <MESSAGE value="Bugs fixed. Alpha version of lexical analyzer by a finite automaton." />
     <MESSAGE value="Bugs fixed and other minor improvements in lexical analyser. Added check of declarations list in the parser." />
-    <option name="LAST_COMMIT_MESSAGE" value="Bugs fixed and other minor improvements in lexical analyser. Added check of declarations list in the parser." />
+    <MESSAGE value="Pre alpha version of parser. Need debugging." />
+    <option name="LAST_COMMIT_MESSAGE" value="Pre alpha version of parser. Need debugging." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/out/production/Translator/code.txt" />
@@ -621,13 +660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/lexer/Element.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/exceptions/lexical/LexicalException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23">
@@ -699,16 +731,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ui/synAnalyzeButtonHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="16" column="62" selection-start-line="16" selection-start-column="62" selection-end-line="16" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ui/MainWindow.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -738,6 +760,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/ui/synAnalyzeButtonHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lexer/Element.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <element signature="e#644#645#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/lexer/LexicalAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
@@ -752,30 +794,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/parser/SyntaxAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="396" column="28" selection-start-line="396" selection-start-column="28" selection-end-line="396" selection-end-column="28" />
+        <state relative-caret-position="-768">
+          <caret line="185" column="100" selection-start-line="185" selection-start-column="100" selection-end-line="185" selection-end-column="100" />
           <folding>
             <element signature="method#SyntaxAnalyzer#0;class#SyntaxAnalyzer#0" />
             <element signature="method#init#0;class#SyntaxAnalyzer#0" />
+            <element signature="method#run#0;class#SyntaxAnalyzer#0" />
             <element signature="method#declarationsList#0;class#SyntaxAnalyzer#0" />
             <element signature="method#declaration#0;class#SyntaxAnalyzer#0" />
             <element signature="method#type#0;class#SyntaxAnalyzer#0" />
-            <element signature="e#2945#2946#0" expanded="true" />
-            <element signature="e#3019#3020#0" expanded="true" />
             <element signature="method#coma#0;class#SyntaxAnalyzer#0" />
             <element signature="method#identifiersList#0;class#SyntaxAnalyzer#0" />
-            <element signature="method#conditionalTransition#0;class#SyntaxAnalyzer#0" />
             <element signature="method#conditionWrapper#0;class#SyntaxAnalyzer#0" />
             <element signature="method#condition#0;class#SyntaxAnalyzer#0" />
             <element signature="method#logicalExpressionWrapper#0;class#SyntaxAnalyzer#0" />
             <element signature="method#logicalExpression#0;class#SyntaxAnalyzer#0" />
+            <element signature="method#cycle#0;class#SyntaxAnalyzer#0" />
             <element signature="method#appropriation#0;class#SyntaxAnalyzer#0" />
-            <element signature="method#multiplier#0;class#SyntaxAnalyzer#0" />
+            <element signature="method#term#0;class#SyntaxAnalyzer#0" />
             <element signature="method#input#0;class#SyntaxAnalyzer#0" />
             <element signature="method#output#0;class#SyntaxAnalyzer#0" />
             <element signature="method#ternaryStatement#0;class#SyntaxAnalyzer#0" />
-            <element signature="e#21535#21536#0" expanded="true" />
-            <element signature="e#21609#21610#0" expanded="true" />
+            <element signature="e#21532#21533#0" expanded="true" />
+            <element signature="e#21606#21607#0" expanded="true" />
             <element signature="method#isExistNextLex#0;class#SyntaxAnalyzer#0" />
             <element signature="method#hasNextLexInLine#0;class#SyntaxAnalyzer#0" />
             <element signature="method#nextLex#0;class#SyntaxAnalyzer#0" />

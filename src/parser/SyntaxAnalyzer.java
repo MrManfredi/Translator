@@ -54,13 +54,13 @@ public class SyntaxAnalyzer {
         } else {
             nextLex();  // select first token
             if (declarationsList()) {
-                if (isExistNextLex()) {
-                    nextLex();
-                    statementsList();
-                }
-                else
+                if (statementsList())
                 {
-                    syntaxExceptions.add(new TokenExpectedException(currentLine + 1, "Statement", nothing));
+                    if (isExistNextLex())
+                    {
+                        nextLex();
+                        syntaxExceptions.add(new TokenExpectedException(currentLine, nothing, currentLex.getText()));
+                    }
                 }
             }
         }
@@ -141,12 +141,7 @@ public class SyntaxAnalyzer {
         if (isExistNextLex()) {
             nextLex();
             if (currentLex.getText().equals("{")) {
-                if (isExistNextLex()) {
-                    nextLex();
-                    return statementsList();
-                } else {
-                    syntaxExceptions.add(new TokenExpectedException(currentLine, "Statement list", nothing));
-                }
+                return statementsList();
             } else {
                 syntaxExceptions.add(new TokenExpectedException(currentLine, "'{'", currentLex.getText()));
             }
@@ -157,24 +152,21 @@ public class SyntaxAnalyzer {
     }
 
     private boolean statementsList() {
-        if (currentLex.getText().equals("{")) {
-            if (isExistNextLex()) {
-                nextLex();
-                if (statement()) {
-                    if (isExistNextLex()) {
-                        nextLex();
-                        if (currentLex.getText().equals("}")) {
-                            return true;
-                        }
-                        return statementsList();
-                    } else {
-                        syntaxExceptions.add(new TokenExpectedException(currentLine, "'}'", nothing));
-                    }
+        if (isExistNextLex()) {
+            nextLex();
+            if (currentLex.getText().equals("}")) {
+                return true;
+            }
+            if (statement()) {
+                if (isExistNextLex()) {
+                    return statementsList();
+                } else {
+                    syntaxExceptions.add(new TokenExpectedException(currentLine + 1, "'}'", nothing));
                 }
             }
-            else {
-                syntaxExceptions.add(new TokenExpectedException(currentLine, "Statement list", nothing));
-            }
+        }
+        else {
+            syntaxExceptions.add(new TokenExpectedException(currentLine + 1, "Statement list", nothing));
         }
         return false;
     }
@@ -182,37 +174,55 @@ public class SyntaxAnalyzer {
     private boolean statement() {
         if (condition())    // ConditionalTransition or ConditionalStatement
         {
-            if (isExistNextLex()) {
-                nextLex();
-                if (conditionalTransition()) {
-                    return true;
-                }
-                return conditionalStatement();
+            if (conditionalTransition()) {
+                return true;
             }
-            else
+            else if (conditionalStatement())
             {
-                syntaxExceptions.add(new TokenExpectedException(currentLine, "'{' or 'goto'", nothing));
+                return true;
             }
-        } else if (cycle() || appropriation() || input() || output() || label())
+//            else
+//            {
+//                syntaxExceptions.add(new TokenExpectedException(currentLine, "'{' or 'goto'", nothing));
+//            }
+        }
+        else if (currentLex.getText().equals("repeat"))
         {
-            return true;
-        } else {
-            syntaxExceptions.add(new TokenExpectedException(currentLine, "Statement", currentLex.getText()));
+            return cycle();
+        }
+        else if (currentLex.getCode() == LexemeType.IDENT.getValue())
+        {
+            return appropriation();
+        }
+        else if (currentLex.getText().equals("in"))
+        {
+            return input();
+        }
+        else if (currentLex.getText().equals("out"))
+        {
+            return output();
+        }
+        else if (currentLex.getCode() == LexemeType.LABEL.getValue())
+        {
+            return label();
         }
         return false;
     }
 
     private boolean conditionalTransition() {
-        if (currentLex.getText().equals("goto")) {
-            if (isExistNextLex()) {
-                nextLex();
-                if (label()) {
-                    return true;
+        if (isExistNextLex() && hasNextLexInLine()) {
+            nextLex();
+            if (currentLex.getText().equals("goto")) {
+                if (isExistNextLex() && hasNextLexInLine()) {
+                    nextLex();
+                    if (label()) {
+                        return true;
+                    } else {
+                        syntaxExceptions.add(new TokenExpectedException(currentLine, "Label", currentLex.getText()));
+                    }
                 } else {
-                    syntaxExceptions.add(new TokenExpectedException(currentLine, "Label", currentLex.getText()));
+                    syntaxExceptions.add(new TokenExpectedException(currentLine, "Label", nothing));
                 }
-            } else {
-                syntaxExceptions.add(new TokenExpectedException(currentLine, "Label", nothing));
             }
         }
         return false;
@@ -220,28 +230,33 @@ public class SyntaxAnalyzer {
 
     private boolean conditionalStatement()  // L | R else L | R else L | R else L | R else R
     {
-        if (statementsList()) {
+        if (statementsListWrapper()) {
             if (isExistNextLex()) {
                 nextLex();
                 if (currentLex.getText().equals("else")) {
                     if (isExistNextLex()) {
                         nextLex();
-                        if (conditionWrapper()) {
+                        if (currentLex.getText().equals("if") && conditionWrapper()) {
                             return conditionalStatement();
                         }
-                        return statementsListWrapper();
+                        else if (currentLex.getText().equals("{"))
+                        {
+                            return statementsList();
+                        }
+                        else
+                        {
+                            syntaxExceptions.add(new TokenExpectedException(currentLine, "'{'", currentLex.getText()));
+                        }
                     }
                 }
-                else
-                {
-                    syntaxExceptions.add(new TokenExpectedException(currentLine, "else", currentLex.getText()));
-                }
+                return true;
             }
             else
             {
                 syntaxExceptions.add(new TokenExpectedException(currentLine, "else", nothing));
             }
         }
+
         return false;
     }
 
@@ -274,14 +289,7 @@ public class SyntaxAnalyzer {
     private boolean logicalExpressionWrapper() {
         if (isExistNextLex()) {
             nextLex();
-            if (logicalExpression())
-            {
-                return true;
-            }
-            else
-            {
-                syntaxExceptions.add(new TokenExpectedException(currentLine, "Identifier or constant", currentLex.getText()));
-            }
+            return logicalExpression();
         } else {
             syntaxExceptions.add(new TokenExpectedException(currentLine, "'('", nothing));
         }
@@ -328,6 +336,9 @@ public class SyntaxAnalyzer {
                     syntaxExceptions.add(new TokenExpectedException(currentLine, "Identifier or constant", nothing));
                 }
             }
+            else {
+                syntaxExceptions.add(new TokenExpectedException(currentLine, "'('", currentLex.getText()));
+            }
         return false;
     }
 
@@ -370,35 +381,40 @@ public class SyntaxAnalyzer {
                         nextLex();
                         return expression();
                     }
+                    else {
+                        syntaxExceptions.add(new TokenExpectedException(currentLine, "Expression", nothing));
+                    }
                 }
+                else
+                {
+                    syntaxExceptions.add(new TokenExpectedException(currentLine, "'='", currentLex.getText()));
+                }
+            }
+            else
+            {
+                syntaxExceptions.add(new TokenExpectedException(currentLine, "'='", nothing));
             }
         }
         return false;
     }
 
+    // todo add expression wrapper
     private boolean expression() {
         if (term())
         {
-            if (isExistNextLex() && hasNextLexInLine())
+            if (currentLex.getText().equals("+") || currentLex.getText().equals("-"))
             {
-                nextLex();
-                if (currentLex.getText().equals("+") || currentLex.getText().equals("-"))
+                if (isExistNextLex() && hasNextLexInLine())
                 {
-                    if (isExistNextLex() && hasNextLexInLine())
-                    {
-                        nextLex();
-                        return term();
-                    }
-                    else
-                    {
-                        syntaxExceptions.add(new TokenExpectedException(currentLine, "Term", nothing));
-                    }
+                    nextLex();
+                    return expression();
                 }
-                else // todo need debugging
+                else
                 {
-                    syntaxExceptions.add(new TokenExpectedException(currentLine, "'+' or '-'", currentLex.getText()));
+                    syntaxExceptions.add(new TokenExpectedException(currentLine, "Term", nothing));
                 }
             }
+
             return true;
         }
         return false;
@@ -415,17 +431,15 @@ public class SyntaxAnalyzer {
                     if (isExistNextLex() && hasNextLexInLine())
                     {
                         nextLex();
-                        return multiplier();
+                        return term();
                     }
                     else
                     {
                         syntaxExceptions.add(new TokenExpectedException(currentLine, "Multiplier", nothing));
+                        return false;
                     }
                 }
-                else // todo need debugging
-                {
-                    syntaxExceptions.add(new TokenExpectedException(currentLine, "'*' or '/'", currentLex.getText()));
-                }
+                return true;
             }
             return true;
         }
@@ -444,17 +458,9 @@ public class SyntaxAnalyzer {
                 nextLex();
                 if (expression())
                 {
-                    if (isExistNextLex() && hasNextLexInLine())
+                    if (currentLex.getText().equals(")"))
                     {
-                        nextLex();
-                        if (currentLex.getText().equals(")"))
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            syntaxExceptions.add(new TokenExpectedException(currentLine, "')'", currentLex.getText()));
-                        }
+                        return true;
                     }
                     else
                     {
@@ -487,6 +493,12 @@ public class SyntaxAnalyzer {
                         nextLex();
                         if (currentLex.getCode() == LexemeType.IDENT.getValue())
                         {
+                            if (isExistNextLex() && hasNextLexInLine())
+                            {
+                                nextLex();
+                                syntaxExceptions.add(new TokenExpectedException(currentLine, nothing, currentLex.getText()));
+                                return false;
+                            }
                             return true;
                         }
                         else
