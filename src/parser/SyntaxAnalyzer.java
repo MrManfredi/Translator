@@ -18,6 +18,7 @@ public class SyntaxAnalyzer {
     private int index;
     private Element currentLex;
     private int currentLine;
+    private int ballance;
 
     public SyntaxAnalyzer() {
         syntaxExceptions = new ArrayList<>();
@@ -43,6 +44,7 @@ public class SyntaxAnalyzer {
         index = -1;
         currentLine = -1;
         syntaxExceptions.clear();
+        ballance = 0;
     }
 
     public void run() {
@@ -438,6 +440,10 @@ public class SyntaxAnalyzer {
                         syntaxExceptions.add(new TokenExpectedException(currentLine, "Multiplier", nothing));
                         return false;
                     }
+                } else if (ballance == 0 && currentLex.getText().equals(")"))
+                {
+                    syntaxExceptions.add(new TokenExpectedException(currentLine, nothing, "')'"));
+                    return false;
                 }
                 return true;
             }
@@ -453,6 +459,7 @@ public class SyntaxAnalyzer {
         }
         else if (currentLex.getText().equals("("))
         {
+            ballance++;
             if (isExistNextLex() && hasNextLexInLine())
             {
                 nextLex();
@@ -460,6 +467,12 @@ public class SyntaxAnalyzer {
                 {
                     if (currentLex.getText().equals(")"))
                     {
+                        ballance--;
+                        if (isExistNextLex() && !hasNextLexInLine() && ballance != 0)
+                        {
+                            syntaxExceptions.add(new TokenExpectedException(currentLine, "')'", nothing));
+                            return false;
+                        }
                         return true;
                     }
                     else
@@ -472,6 +485,10 @@ public class SyntaxAnalyzer {
             {
                 syntaxExceptions.add(new TokenExpectedException(currentLine, "Expression", nothing));
             }
+        } else if (isExistNextLex() && hasNextLexInLine() && ballance == 0 && lex.getTokenTable().get(index + 1).getText().equals(")"))
+        {
+            syntaxExceptions.add(new TokenExpectedException(currentLine, nothing, "')'"));
+            return false;
         }
         else
         {
