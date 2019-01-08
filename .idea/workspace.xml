@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b4d1c58e-4d7d-4791-b44b-2402d552ae26" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/res/transition_table.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code.txt" beforeDir="false" afterPath="$PROJECT_DIR$/res/code.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lexer/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/LexicalAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/SyntaxAnalyzer.java" afterDir="false" />
-    </list>
+    <list default="true" id="b4d1c58e-4d7d-4791-b44b-2402d552ae26" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -87,8 +81,9 @@
           <entry key="project.open.time.60" value="1" />
           <entry key="project.open.time.66" value="1" />
           <entry key="project.open.time.8" value="2" />
+          <entry key="project.open.time.88" value="1" />
           <entry key="project.open.time.91" value="1" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.opened" value="16" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -99,15 +94,15 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="java" value="15262" />
-          <entry key="txt" value="196" />
-          <entry key="xml" value="432" />
+          <entry key="txt" value="262" />
+          <entry key="xml" value="462" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JAVA" value="15262" />
-          <entry key="PLAIN_TEXT" value="196" />
-          <entry key="XML" value="432" />
+          <entry key="PLAIN_TEXT" value="262" />
+          <entry key="XML" value="462" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -141,8 +136,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/res/transition_table.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="535" column="12" lean-forward="true" selection-start-line="535" selection-start-column="12" selection-end-line="535" selection-end-column="12" />
+            <state relative-caret-position="389">
+              <caret line="166" column="21" lean-forward="true" selection-start-line="166" selection-start-column="21" selection-end-line="166" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -151,7 +146,7 @@
         <entry file="file://$PROJECT_DIR$/src/ui/lexAnalyzeButtonHandler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
-              <caret line="19" column="43" lean-forward="true" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
+              <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -320,8 +315,8 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="683" />
+  <component name="ProjectFrameBounds">
+    <option name="width" value="704" />
     <option name="height" value="728" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -332,8 +327,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -361,12 +354,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546788221469" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546958339602" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DB/MyShop" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
@@ -445,6 +440,7 @@
       <workItem from="1545933084175" duration="39000" />
       <workItem from="1546700736134" duration="10448000" />
       <workItem from="1546775134961" duration="9773000" />
+      <workItem from="1546954599758" duration="2348000" />
     </task>
     <task id="LOCAL-00001" summary="Pre alpha version of the lexical analyzer by a finite automaton. Added primitive graphical user interface.">
       <created>1544658108407</created>
@@ -488,11 +484,25 @@
       <option name="project" value="LOCAL" />
       <updated>1545895522515</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added alpha version of transition table (needs to be changed)">
+      <created>1546954842797</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1546954842797</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added beta version of transition table (needs to be tasted)">
+      <created>1546958249295</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1546958249295</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="246741000" />
+    <option name="totallyTimeSpent" value="249089000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -504,10 +514,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="683" height="728" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="704" height="728" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.47030497" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.4689441" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -581,7 +590,9 @@
     <MESSAGE value="Pre alpha version of parser. Need debugging." />
     <MESSAGE value="Some bugs was fixed." />
     <MESSAGE value="Bug with brackets in expressions was fixed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug with brackets in expressions was fixed." />
+    <MESSAGE value="Added alpha version of transition table (needs to be changed)" />
+    <MESSAGE value="Added beta version of transition table (needs to be tasted)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added beta version of transition table (needs to be tasted)" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/out/production/Translator/code.txt" />
@@ -805,6 +816,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/ui/lexAnalyzeButtonHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/parser/SyntaxAnalyzer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -868,17 +886,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ui/lexAnalyzeButtonHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="19" column="43" lean-forward="true" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/transition_table.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="535" column="12" lean-forward="true" selection-start-line="535" selection-start-column="12" selection-end-line="535" selection-end-column="12" />
+        <state relative-caret-position="389">
+          <caret line="166" column="21" lean-forward="true" selection-start-line="166" selection-start-column="21" selection-end-line="166" selection-end-column="21" />
         </state>
       </provider>
     </entry>
