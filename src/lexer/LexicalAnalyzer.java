@@ -53,7 +53,13 @@ public class LexicalAnalyzer {
         keywords.put("int", 26);
         keywords.put("<", 27);
         keywords.put(">", 28);
-        OP = new ArrayList<Character>(Arrays.asList('+', '*', '/', '^', ',', '?', ':', '(', ')', '{', '}'));
+        keywords.put("not", 29);
+        keywords.put("and", 30);
+        keywords.put("or", 31);
+        keywords.put("\n", 32);
+        keywords.put("[", 33);
+        keywords.put("]", 34);
+        OP = new ArrayList<Character>(Arrays.asList('+', '*', '/', '^', ',', '?', ':', '(', ')', '{', '}', '[', ']'));
 
         lexicalExceptions = new ArrayList<>();
         tokenTable = new ArrayList<>();
@@ -140,6 +146,7 @@ public class LexicalAnalyzer {
                 }
             }
             else if (tmp == '\n') {
+                state10();
                 line++;
                 if (hasNextChar())
                 {
@@ -160,7 +167,7 @@ public class LexicalAnalyzer {
         if (Character.isLetter(tmp) || Character.isDigit(tmp)) {
             state2();
         } else if (tmp == ':'){
-            state10();  // label
+            state11();  // label
         }
         else {
             if (keywords.containsKey(builder.toString()))
@@ -294,7 +301,11 @@ public class LexicalAnalyzer {
         }
     }
 
-    private void state10()    // label
+    private void state10()
+    {
+        tokenTable.add(new Element(line, "¶", keywords.get("\n"), -1 ));
+    }
+    private void state11()    // label
     {
         nextChar();
         Label temp;

@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<states>
+    <!-- програма -->
+    <state name="1">
+        <transitions>
+            <transition label="int">
+                <stack/>
+                <goto>2</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Type expected"/>
+    </state>
+    <state name="2">
+        <transitions>
+            <transition label="_IDN">
+                <stack/>
+                <goto>3</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Identifier expected"/>
+    </state>
+    <state name="3">
+        <transitions>
+            <transition label=",">
+                <stack/>
+                <goto>2</goto>
+            </transition>
+            <transition label="¶">
+                <stack/>
+                <goto>4</goto>
+            </transition>
+        </transitions>
+        <incomparability error="¶ expected"/>
+    </state>
+    <state name="4">
+        <transitions>
+            <transition label="{">
+                <stack/>
+                <goto>31</goto>
+            </transition>
+        </transitions>
+        <incomparability>
+            <stack/>
+            <goto>1</goto>
+        </incomparability>
+    </state>
+    <state name="5">
+        <transitions>
+            <transition label="¶">
+                <stack>6</stack>
+                <goto>101</goto>
+            </transition>
+        </transitions>
+        <incomparability error="¶ expected"/>
+    </state>
+    <state name="6">
+        <transitions>
+            <transition label="}">
+                <stack/>
+                <goto>7</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Closing brace expected"/>
+    </state>
+    <state name="7">
+        <transitions/>
+        <incomparability error="exit"/>
+    </state>
+
+    <!-- E -->
+    <state name="11">
+        <transitions>
+            <transition label="_IDN">
+                <stack/>
+                <goto>13</goto>
+            </transition>
+            <transition label="_CON">
+                <stack/>
+                <goto>13</goto>
+            </transition>
+            <transition label="(">
+                <stack>12</stack>
+                <goto>11</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Expression expected"/>
+    </state>
+    <state name="12">
+        <transitions>
+            <transition label=")">
+                <stack/>
+                <goto>13</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Closing bracket expected"/>
+    </state>
+    <state name="13">
+        <transitions>
+            <transition label="+">
+                <stack/>
+                <goto>11</goto>
+            </transition>
+            <transition label="-">
+                <stack/>
+                <goto>11</goto>
+            </transition>
+            <transition label="*">
+                <stack/>
+                <goto>11</goto>
+            </transition>
+            <transition label="/">
+                <stack/>
+                <goto>11</goto>
+            </transition>
+        </transitions>
+        <incomparability error="exit"/>
+    </state>
+
+    <!-- LE -->
+    <state name="21">
+        <transitions>
+            <transition label="not">
+                <stack/>
+                <goto>21</goto>
+            </transition>
+            <transition label="(">
+                <stack>23</stack>
+                <goto>21</goto>
+            </transition>
+        </transitions>
+        <incomparability>
+            <stack>22</stack>
+            <goto>11</goto>
+        </incomparability>
+    </state>
+    <state name="22">
+        <transitions>
+            <transition label="&lt;">
+                <stack>24</stack>
+                <goto>11</goto>
+            </transition>
+            <transition label="&lt;=">
+                <stack>24</stack>
+                <goto>11</goto>
+            </transition>
+            <transition label="&gt;">
+                <stack>24</stack>
+                <goto>11</goto>
+            </transition>
+            <transition label="&gt;=">
+                <stack>24</stack>
+                <goto>11</goto>
+            </transition>
+            <transition label="!=">
+                <stack>24</stack>
+                <goto>11</goto>
+            </transition>
+            <transition label="==">
+                <stack>24</stack>
+                <goto>11</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Logical operator expected"/>
+    </state>
+    <state name="23">
+        <transitions>
+            <transition label=")">
+                <stack/>
+                <goto>24</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Closing bracket expected"/>
+    </state>
+    <state name="24">
+        <transitions>
+            <transition label="and">
+                <stack/>
+                <goto>21</goto>
+            </transition>
+            <transition label="or">
+                <stack/>
+                <goto>21</goto>
+            </transition>
+        </transitions>
+        <incomparability error="exit"/>
+    </state>
+
+    <!-- оператор -->
+    <state name="90">
+        <transitions>
+            <transition label="_IDN">
+                <stack/>
+                <goto>31</goto>
+            </transition>
+            <transition label="in">
+                <stack/>
+                <goto>41</goto>
+            </transition>
+            <transition label="out">
+                <stack/>
+                <goto>51</goto>
+            </transition>
+            <transition label="_LBL">
+                <stack/>
+                <goto>91</goto>
+            </transition>
+            <transition label="if">
+                <stack/>
+                <goto>61</goto>
+            </transition>
+            <transition label="repeat">
+                <stack/>
+                <goto>71</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Operator expected"/>
+    </state>
+    <!--Appropriation-->
+    <state name="31">
+        <transitions>
+            <transition label="=">
+                <stack/>
+                <goto>32</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Assignment expected"/>
+    </state>
+    <state name="32">
+        <transitions>
+            <transition label="[">
+                <stack>33</stack>
+                <goto>21</goto>
+            </transition>
+        </transitions>
+        <incomparability>
+            <stack>91</stack>
+            <goto>11</goto>
+        </incomparability>
+    </state>
+    <state name="33">
+        <transitions>
+            <transition label="?">
+                <stack>34</stack>
+                <goto>11</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Question mark expected"/>
+    </state>
+    <state name="34">
+        <transitions>
+            <transition label=":">
+                <stack>35</stack>
+                <goto>11</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Colon expected"/>
+    </state>
+    <state name="35">
+        <transitions>
+            <transition label="]">
+                <stack/>
+                <goto>91</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Closing square bracket expected"/>
+    </state>
+    <!--in-->
+    <state name="41">
+        <transitions>
+            <transition label="&gt;&gt;">
+                <stack/>
+                <goto>42</goto>
+            </transition>
+        </transitions>
+        <incomparability error="&quot;&gt;&gt;&quot; expected"/>
+    </state>
+    <state name="42">
+        <transitions>
+            <transition label="_IDN">
+                <stack/>
+                <goto>43</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Identifier expected"/>
+    </state>
+    <state name="43">
+        <transitions>
+            <transition label="&gt;&gt;">
+                <stack/>
+                <goto>42</goto>
+            </transition>
+        </transitions>
+        <incomparability>
+            <stack/>
+            <goto>91</goto>
+        </incomparability>
+    </state>
+    <!--out-->
+    <state name="51">
+        <transitions>
+            <transition label="&lt;&lt;">
+                <stack/>
+                <goto>52</goto>
+            </transition>
+        </transitions>
+        <incomparability error="&quot;&lt;&lt;&quot; expected"/>
+    </state>
+    <state name="52">
+        <transitions/>
+        <incomparability>
+            <stack>53</stack>
+            <goto>11</goto>
+        </incomparability>
+    </state>
+    <state name="53">
+        <transitions>
+            <transition label="&lt;&lt;">
+                <stack/>
+                <goto>52</goto>
+            </transition>
+        </transitions>
+        <incomparability>
+            <stack/>
+            <goto>91</goto>
+        </incomparability>
+    </state>
+    <!--if-->
+    <state name="61">
+        <transitions>
+            <transition label="(">
+                <stack>62</stack>
+                <goto>21</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Opening bracket expected"/>
+    </state>
+    <state name="62">
+        <transitions>
+            <transition label=")">
+                <stack/>
+                <goto>63</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Closing bracket expected"/>
+    </state>
+    <state name="63">
+        <transitions>
+            <transition label="goto">
+                <stack/>
+                <goto>601</goto>
+            </transition>
+        </transitions>
+        <transitions>
+            <transition label="¶">
+                <stack/>
+                <goto>611</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Statement block expected"/>
+    </state>
+    <!--goto-->
+    <state name="601">
+        <transitions>
+            <transition label="_LBL">
+                <stack/>
+                <goto>91</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Label expected"/>
+    </state>
+    <!--if else-->
+    <state name="611">
+        <transitions>
+            <transition label="{">
+                <stack/>
+                <goto>612</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Opening brace expected"/>
+    </state>
+    <state name="612">
+        <transitions>
+            <transition label="¶">
+                <stack>613</stack>
+                <goto>101</goto>
+            </transition>
+        </transitions>
+        <incomparability error="¶ expected"/>
+    </state>
+    <state name="613">
+        <transitions>
+            <transition label="}">
+                <stack/>
+                <goto>614</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Closing brace expected"/>
+    </state>
+    <state name="614">
+        <transitions>
+            <transition label="else">
+                <stack/>
+                <goto>615</goto>
+            </transition>
+        </transitions>
+        <incomparability>
+            <stack/>
+            <goto>91</goto>
+        </incomparability>
+    </state>
+    <state name="615">
+        <transitions>
+            <transition label="{">
+                <stack/>
+                <goto>616</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Brace expected"/>
+    </state>
+    <state name="616">
+        <transitions>
+            <transition label="¶">
+                <stack>617</stack>
+                <goto>101</goto>
+            </transition>
+        </transitions>
+        <incomparability error="¶ expected"/>
+    </state>
+    <state name="617">
+        <transitions>
+            <transition label="if">
+                <stack/>
+                <goto>61</goto>
+            </transition>
+        </transitions>
+        <incomparability>
+            <stack/>
+            <goto>91</goto>
+        </incomparability>
+    </state>
+
+    <!--repeat until-->
+    <state name="71">
+        <transitions>
+            <transition label="¶">
+                <stack/>
+                <goto>72</goto>
+            </transition>
+        </transitions>
+        <incomparability error="¶ expected"/>
+    </state>
+    <state name="72">
+        <transitions>
+            <transition label="{">
+                <stack/>
+                <goto>72</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Opening brace expected"/>
+    </state>
+    <state name="73">
+        <transitions>
+            <transition label="¶">
+                <stack>74</stack>
+                <goto>101</goto>
+            </transition>
+        </transitions>
+        <incomparability error="¶ expected"/>
+    </state>
+    <state name="74">
+        <transitions>
+            <transition label="}">
+                <stack/>
+                <goto>75</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Closing brace expected"/>
+    </state>
+    <state name="75">
+        <transitions>
+            <transition label="¶">
+                <stack/>
+                <goto>76</goto>
+            </transition>
+        </transitions>
+        <incomparability error="¶ expected"/>
+    </state>
+    <state name="76">
+        <transitions>
+            <transition label="until">
+                <stack/>
+                <goto>77</goto>
+            </transition>
+        </transitions>
+        <incomparability error="&quot;until&quot; expected"/>
+    </state>
+    <state name="77">
+        <transitions>
+            <transition label="(">
+                <stack>78</stack>
+                <goto>21</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Opening bracket expected"/>
+    </state>
+    <state name="78">
+        <transitions>
+            <transition label=")">
+                <stack/>
+                <goto>91</goto>
+            </transition>
+        </transitions>
+        <incomparability error="Closing bracket expected"/>
+    </state>
+    <state name="91">
+        <transitions/>
+        <incomparability error="exit"/>
+    </state>
+
+    <state name="101">
+        <transitions/>
+        <incomparability>
+            <stack>102</stack>
+            <goto>90</goto>
+        </incomparability>
+    </state>
+    <state name="102">
+        <transitions>
+            <transition label="¶">
+                <stack/>
+                <goto>103</goto>
+            </transition>
+        </transitions>
+        <incomparability error="¶ expected"/>
+    </state>
+    <state name="103">
+        <transitions>
+            <transition label="¶">
+                <stack/>
+                <goto>103</goto>
+            </transition>
+        </transitions>
+        <incomparability error="exit"/>
+    </state>
+
+</states>
