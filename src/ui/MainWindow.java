@@ -2,6 +2,7 @@ package ui;
 
 import lexer.LexicalAnalyzer;
 import parser.SyntaxAnalyzer;
+import parser.SyntaxAnalyzerAutomate;
 
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
@@ -13,6 +14,7 @@ public class MainWindow {
     // variables
     private static LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
     private static SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer();
+    private static SyntaxAnalyzerAutomate syntaxAnalyzerAutomate = new SyntaxAnalyzerAutomate();
 
     // left part
     private static JButton open;
@@ -52,6 +54,10 @@ public class MainWindow {
 
     public static SyntaxAnalyzer getSyntaxAnalyzer() {
         return syntaxAnalyzer;
+    }
+
+    public static SyntaxAnalyzerAutomate getSyntaxAnalyzerAutomate() {
+        return syntaxAnalyzerAutomate;
     }
 
     public MainWindow()

@@ -9,16 +9,29 @@ import java.awt.event.ActionListener;
 public class synAnalyzeButtonHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
+//        // Recursive Syntax Analyze
+//        MainWindow.getLexicalAnalyzer().run(MainWindow.getCode().getText());
+//        MainWindow.getSyntaxAnalyzer().setLex(MainWindow.getLexicalAnalyzer());
+//        MainWindow.getSyntaxAnalyzer().run();
+//        if (MainWindow.getSyntaxAnalyzer().getSyntaxExceptions().isEmpty())
+//        {
+//            MainWindow.setInfo("Syntactic analysis successful!");
+//        }
+//        else
+//        {
+//            MainWindow.setInfo(getExceptionsData(MainWindow.getSyntaxAnalyzer()));
+//        }
+//        MainWindow.table.setVisible(false);
+
         MainWindow.getLexicalAnalyzer().run(MainWindow.getCode().getText());
-        MainWindow.getSyntaxAnalyzer().setLex(MainWindow.getLexicalAnalyzer());
-        MainWindow.getSyntaxAnalyzer().run();
-        if (MainWindow.getSyntaxAnalyzer().getSyntaxExceptions().isEmpty())
+        MainWindow.getSyntaxAnalyzerAutomate().run(MainWindow.getCode().getText());
+        if (MainWindow.getSyntaxAnalyzerAutomate().getError() == null)
         {
             MainWindow.setInfo("Syntactic analysis successful!");
         }
         else
         {
-            MainWindow.setInfo(getExceptionsData(MainWindow.getSyntaxAnalyzer()));
+            MainWindow.setInfo(MainWindow.getSyntaxAnalyzerAutomate().getError());
         }
         MainWindow.table.setVisible(false);
     }
