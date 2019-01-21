@@ -25,15 +25,18 @@ public class TransitionElems {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("{")
-                .append("stack: ")
-                .append(stackPush)
-                .append(", ")
-                .append("nextState: ")
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("{");
+        if (stackPush != null) {
+            builder.append("stack: ")
+                    .append(stackPush)
+                    .append(", ");
+        }
+        builder.append("nextState: ")
                 .append(nextState)
-                .append(", ")
-                .append("cmp: \'")
-                .append(comparability)
-                .append("\'}").toString();
+                .append("}");
+
+        return builder.toString();
     }
 }

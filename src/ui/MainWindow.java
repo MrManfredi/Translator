@@ -21,16 +21,18 @@ public class MainWindow {
     private static JButton save;
     private static JLabel codeLabel;
     private static JTextArea code;
-    static JScrollPane codeScrollPane;
+    private static JScrollPane codeScrollPane;
     private static JLabel infoLabel;
     private static JTextArea info;
-    static JScrollPane infoScrollPane;
+    private static JScrollPane infoScrollPane;
 
     // right part
     static JRadioButton allTokens;
     static JRadioButton identifiers;
     static JRadioButton constants;
     static JRadioButton labels;
+    static JRadioButton transitions;
+    static JRadioButton allTransitions;
     static JTable table;
     static JScrollPane scrollPane;
     static JButton lexAnalyze;
@@ -77,6 +79,8 @@ public class MainWindow {
         identifiers = new JRadioButton("Identifiers");
         constants = new JRadioButton("Constants");
         labels = new JRadioButton("Labels");
+        transitions = new JRadioButton("Transitions");
+        allTransitions = new JRadioButton("All Transitions");
         table = new JTable();
         scrollPane = new JScrollPane(table);
         lexAnalyze = new JButton("Lexical Analyze");
@@ -144,17 +148,23 @@ public class MainWindow {
         radioButtonsGroup.add(identifiers);
         radioButtonsGroup.add(constants);
         radioButtonsGroup.add(labels);
+        radioButtonsGroup.add(transitions);
+        radioButtonsGroup.add(allTransitions);
         JPanel radioButtonsPanel = new JPanel();
-        radioButtonsPanel.setLayout(new GridLayout(1, 4));
+        radioButtonsPanel.setLayout(new GridLayout(1, 6));
         radioButtonsPanel.add(allTokens);
         radioButtonsPanel.add(identifiers);
         radioButtonsPanel.add(constants);
         radioButtonsPanel.add(labels);
+        radioButtonsPanel.add(transitions);
+        radioButtonsPanel.add(allTransitions);
         rightPanel.add(radioButtonsPanel, BorderLayout.NORTH);
         allTokens.addActionListener(new RadioButtonsHandler());
         identifiers.addActionListener(new RadioButtonsHandler());
         constants.addActionListener(new RadioButtonsHandler());
         labels.addActionListener(new RadioButtonsHandler());
+        transitions.addActionListener(new RadioButtonsHandler());
+        allTransitions.addActionListener(new RadioButtonsHandler());
         // center
         rightPanel.add(scrollPane, BorderLayout.CENTER);
         // bottom

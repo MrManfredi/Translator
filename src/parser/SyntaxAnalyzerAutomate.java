@@ -2,6 +2,7 @@ package parser;
 
 import lexer.Element;
 import lexer.LexicalAnalyzer;
+import parser.transitions.DataTableField;
 import parser.transitions.State;
 import parser.transitions.TTReader;
 import parser.transitions.TransitionElems;
@@ -141,28 +142,15 @@ public class SyntaxAnalyzerAutomate {
         return list;
     }
 
-    private class DataTableField {
-        int state;
-        String label;
-        ArrayList<Integer> stack;
-
-        public DataTableField(int state, String label, ArrayList<Integer> stack) {
-            this.state = state;
-            this.label = label;
-            this.stack = stack;
-        }
-
-        @Override
-        public String toString() {
-            return new StringBuilder()
-                    .append("DTF{state: ").append(state).append(", ")
-                    .append("label: ").append(label).append(", ")
-                    .append("stack: ").append(stack).append("}")
-                    .toString();
-        }
-    }
-
     public String getError() {
         return error;
+    }
+
+    public ArrayList<DataTableField> getDataTable() {
+        return dataTable;
+    }
+
+    public Map<Integer, State> getTransitions() {
+        return stateTransitions;
     }
 }

@@ -25,7 +25,7 @@ public class synAnalyzeButtonHandler implements ActionListener {
 
         MainWindow.getLexicalAnalyzer().run(MainWindow.getCode().getText());
         MainWindow.getSyntaxAnalyzerAutomate().run(MainWindow.getCode().getText());
-        if (MainWindow.getSyntaxAnalyzerAutomate().getError() == null)
+        if (MainWindow.getSyntaxAnalyzerAutomate().getError().equals("exit"))
         {
             MainWindow.setInfo("Syntactic analysis successful!");
         }
