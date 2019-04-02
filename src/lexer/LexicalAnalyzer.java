@@ -37,7 +37,7 @@ public class LexicalAnalyzer {
         keywords.put("repeat", 10);
         keywords.put("until", 11);
         keywords.put("if", 12);
-        keywords.put("else", 13);
+        keywords.put("int", 13);
         keywords.put("(", 14);
         keywords.put(")", 15);
         keywords.put("{", 16);
@@ -50,15 +50,14 @@ public class LexicalAnalyzer {
         keywords.put("?", 23);
         keywords.put(":", 24);
         keywords.put("goto", 25);
-        keywords.put("int", 26);
+        keywords.put(">", 26);
         keywords.put("<", 27);
-        keywords.put(">", 28);
-        keywords.put("not", 29);
+        keywords.put("not", 28);
+        keywords.put("or", 29);
         keywords.put("and", 30);
-        keywords.put("or", 31);
-        keywords.put("\n", 32);
-        keywords.put("[", 33);
-        keywords.put("]", 34);
+        keywords.put("[", 31);
+        keywords.put("]", 32);
+        keywords.put("\n", 33);
         OP = new ArrayList<Character>(Arrays.asList('+', '*', '/', '^', ',', '?', ':', '(', ')', '{', '}', '[', ']'));
 
         lexicalExceptions = new ArrayList<>();
@@ -305,6 +304,7 @@ public class LexicalAnalyzer {
     {
         tokenTable.add(new Element(line, "¶", keywords.get("\n"), -1 ));
     }
+
     private void state11()    // label
     {
         nextChar();
@@ -469,7 +469,7 @@ public class LexicalAnalyzer {
         {
             if (tmp.getLine() == line)
             {
-                if (tmp.getCode() == IdentifierType.INT.getValue())
+                if (tmp.getCode() == IdentifierType.INT.getValue())    // todo
                 {
                     lastType = tmp.getText();
                     return true;
@@ -491,5 +491,10 @@ public class LexicalAnalyzer {
                 lexicalExceptions.add(new LabelNotDeclaratedException(-1, tmp.getLabel()));
             }
         }
+    }
+
+    public static int getLexemeTypeIndex(String typeName)
+    {
+        return  keywords.containsKey(typeName) ? keywords.get(typeName) : -1;
     }
 }

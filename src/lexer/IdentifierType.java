@@ -1,7 +1,9 @@
 package lexer;
 
+import static lexer.LexicalAnalyzer.getLexemeTypeIndex;
+
 public enum IdentifierType {
-    INT(26);
+    INT(getLexemeTypeIndex("int"));
     private int value;
     IdentifierType(int value)
     {
