@@ -1,22 +1,21 @@
-Program = DeclarationsList "{" NL StatementsList "}".
-DeclarationsList = Declaration NL {Declaration NL}.
-Declaration = Type Identifier { "," Identifier}.
+Program = DeclarationsList "{" NL StatementsList "}" .
+DeclarationsList = Declaration NL {Declaration NL} .
+Declaration = Type Identifier { "," Identifier} .
 StatementsList = Statement {Statement}.
-Statement = ConditionalTransition | Cycle | Appropriation | Input | Output | Label.
+Statement = ConditionalTransition | Cycle | Appropriation | Input | Output | Label .
 
-Cycle = "repeat" "{" StatementsList "}" "until" "("LogicalExpression")".
-ConditionalTransition = "if" "(" LogicalExpression ")" "goto" Label.					
+Cycle = "repeat" "{" StatementsList "}" "until" "("LogicalExpression")" .
+ConditionalTransition = "if" "(" LogicalExpression ")" "goto" Label .					
 Appropriation = Identifier "=" Expression.
-TernaryStatement = Identifier "=" LogicalExpression "?" Expression ":" Expression.
+TernaryStatement = Identifier "=" LogicalExpression "?" Expression ":" Expression .
 
-LogicalExpression = ["not"] ((Expression ComparisonMark Expression) | "(" LogicalExpression ")") [("and" | "or") LogicalExpression].
+LogicalExpression = ["not"] ((Expression ComparisonMark Expression) | "(" LogicalExpression ")") [("and" | "or") LogicalExpression] .
 
-Expression = Term {("+" | "-") Term}.
-Term = Multiplier {("*" | "/") Multiplier}.
-Multiplier = Identifier | Constant | "("Expression")".
+Expression = Term {("+" | "-") Term} .
+Term = Multiplier {("*" | "/") Multiplier} .
+Multiplier = Identifier | Constant | "("Expression")" .
 
-Input = "in" ">>" Identifier {">>" Identifier}.
-Output = "out" "<<" Expression {"<<" Expression}.
-Label = Identifier ":".
-ComparisonMark = "<" | "<=" | "==" | "!=" | ">" | ">=".
+Input = "in" ">>" Identifier {">>" Identifier} .
+Output = "out" "<<" Expression {"<<" Expression} .
+ComparisonMark = "<" | "<=" | "==" | "!=" | ">" | ">=" .
 

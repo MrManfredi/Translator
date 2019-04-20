@@ -1,0 +1,19 @@
+{
+  "Program": [[ "DeclarationsList", "{", "NL", "StatementsList", "}" ]],
+  "DeclarationsList": [["Declaration", "NL"], ["DeclarationsList", "Declaration", "NL"]],
+  "Declaration": [["Type", "Identifier" ], ["Declaration", ",", "Identifier"]],
+  "StatementsList": [["Statement"], ["StatementsList", "Statement"]],
+  "Statement": [["ConditionalTransition"], ["Cycle"], ["Appropriation"], ["Input"], ["Output"], ["Label"]],
+  "Cycle": [["repeat", "{", "StatementsList", "}", "until", "(", "LogicalExpression", ")"]],
+  "ConditionalTransition": [["if", "(", "LogicalExpression", ")", "goto", "Label"]],
+  "Appropriation": [["Identifier", "=", "Expression"]],
+  "TernaryStatement": [["Identifier", "=", "LogicalExpression", "?", "Expression", ":", "Expression"]],
+  "LogicalExpression": [["not", "LogicalExpression"], ["Expression", "ComparisonMark", "Expression"], ["(", "LogicalExpression", ")"],
+  ["LogicalExpression", "and", "LogicalExpression"], ["LogicalExpression", "or", "LogicalExpression"]],
+  "Expression": [["Term"], ["Expression", "+", "Term"], ["Expression", "-", "Term"]],
+  "Term": [["Multiplier"], ["Term", "*", "Multiplier"], ["Term", "/", "Multiplier"]],
+  "Multiplier": [["Identifier"],["Constant"], ["(", "Expression", ")"]],
+  "Input": [["in", ">>", "Identifier"], ["Input", ">>", "Identifier"]],
+  "Output": [["out", "<<", "Expression"], ["Output", "<<", "Expression"]],
+  "ComparisonMark": [["<"], ["<="], ["=="], ["!="], [">"], [">="]]
+}
