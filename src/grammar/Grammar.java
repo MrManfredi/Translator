@@ -27,6 +27,15 @@ public class Grammar {
         return rules;
     }
 
+    public Rule getRule(String leftSide) {
+        for (Rule rule : rules) {
+            if (rule.getLeftSide().equals(leftSide)) {
+                return rule;
+            }
+        }
+        return null;
+    }
+
     public List<String> getNonterminals() {
         return nonterminals;
     }

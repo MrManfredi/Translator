@@ -1,0 +1,22 @@
+table, th, td {
+    border: 1px solid black;
+    border-spacing: 0;
+}
+
+td {
+    padding: 0 5px;
+    min-width: 40px;
+}
+
+.first_col {
+    min-width: 100px;
+}
+
+tr:nth-child(2n){
+    background-color: navajowhite;
+    text-decoration-color: white;
+}
+
+.conflict-cell{
+    background-color: crimson;
+}

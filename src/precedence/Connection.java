@@ -24,4 +24,7 @@ public class Connection {
         }
     }
 
+    public Map<String, Relation> getConnection() {
+        return connection;
+    }
 }
