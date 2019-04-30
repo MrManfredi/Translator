@@ -14,69 +14,50 @@ import java.util.Map;
 import java.util.Set;
 
 public class PrecedenceHandler {
+    private Grammar grammar;
+    private Precedence precedence;
+    public PrecedenceHandler(Grammar grammar) {
+        this.grammar = grammar;
+        this.precedence = new Precedence();
+    }
 
-    public static Precedence computePrecedences(Grammar grammar) {
-        Precedence precedence = new Precedence();
+    public Precedence computePrecedences() {
+        precedence = new Precedence();
         List<Rule> rules = grammar.getRules();
         for (Rule rule : rules) {
             List<RightSide> rightSides = rule.getRightSides();
             for (RightSide rightSide : rightSides) {
                 List<String> words = rightSide.getWords();
-                if (words.contains("")) {
-                    System.out.println("lol");
-                }
+
                 for (int i = 0; i < words.size() - 1; i++) {
-                    precedence.addPrecedence(words.get(i), words.get(i + 1), RelationType.EQUAL);
-
+                    String leftWord = words.get(i);
+                    String rightWord = words.get(i + 1);
                     List<String> firstPlusRight = new ArrayList<>();
-                    if (grammar.getNonterminals().contains(words.get(i + 1)))
+                    List<String> lastPlusLeft = new ArrayList<>();
+                    // 1) equal (first rule)
+                    precedence.addPrecedence(leftWord, rightWord, RelationType.EQUAL);
+                    // 2) less (second rule)
+                    if (grammar.getNonterminals().contains(rightWord))
                     {
-                        firstPlusRight.add(words.get(i + 1));
-
-                        int j = 0;
-                        do {
-                            if (grammar.getNonterminals().contains(firstPlusRight.get(j))) {
-                                for (RightSide right : grammar.getRule(firstPlusRight.get(j)).getRightSides()) {
-                                    String temp = right.getWords().get(0);      // the first word of each right side
-                                    if (!firstPlusRight.contains(temp)) {
-                                        firstPlusRight.add(temp);
-                                    }
-                                }
-                            }
-                            j++;
-                        } while (j < firstPlusRight.size());
-
-                        for (String word : firstPlusRight) {
-                            precedence.addPrecedence(words.get(i), word, RelationType.LESS);
+                        firstPlusRight = calculateFirstPlus(rightWord);
+                        for (String firstPlusRightWord : firstPlusRight) {
+                            precedence.addPrecedence(leftWord, firstPlusRightWord, RelationType.LESS);
                         }
                     }
-
-                    if (grammar.getNonterminals().contains(words.get(i))) {
-                        List<String> lastPlusLeft = new ArrayList<>();
-                        lastPlusLeft.add(words.get(i));
-
-                        int j = 0;
-                        do {
-                            if (grammar.getNonterminals().contains(lastPlusLeft.get(j))) {
-                                for (RightSide right : grammar.getRule(lastPlusLeft.get(j)).getRightSides()) {
-                                    String temp = right.getWords().get(right.getWords().size() - 1);      // the last word of each right side
-                                    if (!lastPlusLeft.contains(temp)) {
-                                        lastPlusLeft.add(temp);
-                                    }
-                                }
+                    // 3.1) more (third rule first part)
+                    if (grammar.getNonterminals().contains(leftWord)) {
+                        lastPlusLeft = calculateLastPlus(leftWord);
+                        if (!grammar.getNonterminals().contains(rightWord)) {
+                            for (String word : lastPlusLeft) {
+                                precedence.addPrecedence(word, rightWord, RelationType.MORE);
                             }
-                            j++;
-                        } while (j < lastPlusLeft.size());
-
-                        for (String word : lastPlusLeft) {
-                            precedence.addPrecedence(word, words.get(i + 1), RelationType.MORE);
                         }
-
-                        if (!firstPlusRight.isEmpty()) {
-                            for (String lastLeft : lastPlusLeft) {
-                                for (String firstRight : firstPlusRight) {
-                                    precedence.addPrecedence(lastLeft, firstRight, RelationType.MORE);
-                                }
+                    }
+                    // 3.2) more (third rule second part)
+                    if (!firstPlusRight.isEmpty() && !lastPlusLeft.isEmpty()) {
+                        for (String lastLeft : lastPlusLeft) {
+                            for (String firstRight : firstPlusRight) {
+                                precedence.addPrecedence(lastLeft, firstRight, RelationType.MORE);
                             }
                         }
                     }
@@ -84,6 +65,56 @@ public class PrecedenceHandler {
             }
         }
         return precedence;
+    }
+
+    private List<String> calculateFirstPlus(String word) {
+        List<String> firstPlus = calculateFirst(word);
+        for (int i = 0; i < firstPlus.size(); i++) {
+            if (grammar.getNonterminals().contains(firstPlus.get(i))) {
+                for (String tempWord : calculateFirst(firstPlus.get(i))) {
+                    if (!firstPlus.contains(tempWord)) {
+                        firstPlus.add(tempWord);
+                    }
+                }
+            }
+        }
+        return firstPlus;
+    }
+
+    private List<String> calculateFirst(String word) {
+        List<String> first = new ArrayList<>();
+        for (RightSide rightSide : grammar.getRule(word).getRightSides()) {
+            String temp = rightSide.getWords().get(0);      // the first word of each right side
+            if (!first.contains(temp)) {
+                first.add(temp);
+            }
+        }
+        return first;
+    }
+
+    private List<String> calculateLastPlus(String word) {
+        List<String> lastPlus = calculateLast(word);
+        for (int i = 0; i < lastPlus.size(); i++) {
+            if (grammar.getNonterminals().contains(lastPlus.get(i))) {
+                for (String tempWord : calculateLast(lastPlus.get(i))) {
+                    if (!lastPlus.contains(tempWord)) {
+                        lastPlus.add(tempWord);
+                    }
+                }
+            }
+        }
+        return lastPlus;
+    }
+
+    private List<String> calculateLast(String word) {
+        List<String> first = new ArrayList<>();
+        for (RightSide rightSide : grammar.getRule(word).getRightSides()) {
+            String temp = rightSide.getWords().get(rightSide.getWords().size() - 1);      // the last word of each right side
+            if (!first.contains(temp)) {
+                first.add(temp);
+            }
+        }
+        return first;
     }
 
     private static String getHtmlCode(Precedence precedence) {
@@ -181,7 +212,8 @@ public class PrecedenceHandler {
 
     public static void main(String[] args) {
         Grammar grammar = GrammarParser.parse("res/grammar.json");
-        Precedence precedence = PrecedenceHandler.computePrecedences(grammar);
+        PrecedenceHandler precedenceHandler = new PrecedenceHandler(grammar);
+        Precedence precedence = precedenceHandler.computePrecedences();
         String htmlCode = getHtmlCode(precedence);
         createHtmlFile(htmlCode);
         System.out.println("Hi");

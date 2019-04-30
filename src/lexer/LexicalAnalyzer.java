@@ -469,7 +469,7 @@ public class LexicalAnalyzer {
         {
             if (tmp.getLine() == line)
             {
-                if (tmp.getCode() == IdentifierType.INT.getValue())    // todo
+                if (tmp.getCode() == IdentifierType.INT.getValue())
                 {
                     lastType = tmp.getText();
                     return true;
