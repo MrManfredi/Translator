@@ -1,6 +1,5 @@
 package ui;
 
-import exceptions.lexical.LexicalException;
 import lexer.*;
 import parser.SyntaxAnalyzerAutomate;
 import parser.transitions.DataTableField;
@@ -131,16 +130,16 @@ public class RadioButtonsHandler implements ActionListener {
     }
 
     private Object[][] getLexemesData(LexicalAnalyzer lexer) {
-        Stream<Element> lexemeStream = lexer.getTokenTable().stream();
+        Stream<Lexeme> lexemeStream = lexer.getTokenTable().stream();
 
         AtomicInteger i = new AtomicInteger(1);
         List<Object[]> lexemes = lexemeStream.map(l -> new Object[]{i.getAndIncrement(),
                 l.getLine(),
                 l.getText(),
                 l.getCode(),
-                (l.getCode() == LexemeType.IDENT.getValue()) ? l.getIndexInTable() : "",
-                (l.getCode() == LexemeType.CONST.getValue()) ? l.getIndexInTable() : "",
-                (l.getCode() == LexemeType.LABEL.getValue()) ? l.getIndexInTable() : ""}).collect(Collectors.toList());
+                (l.getCode() == LexemeType.IDENT.getValue()) ? l.getSpecialCode() : "",
+                (l.getCode() == LexemeType.CONST.getValue()) ? l.getSpecialCode() : "",
+                (l.getCode() == LexemeType.LABEL.getValue()) ? l.getSpecialCode() : ""}).collect(Collectors.toList());
 
         Object[][] data = new Object[lexemes.size()][];
         lexemes.toArray(data);

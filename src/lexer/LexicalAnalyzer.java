@@ -8,10 +8,10 @@ public class LexicalAnalyzer {
     static private Map<String, Integer> keywords;
     static private ArrayList<Character> OP;
     private List<LexicalException> lexicalExceptions;
-    private ArrayList<Element> tokenTable;
+    private ArrayList<Lexeme> tokenTable;
     private ArrayList<Identifier> identTable;
     private ArrayList<Constant> constTable;
-    private ArrayList<Label> labelTable;
+    private List<Label> labelTable;
     private StringBuilder builder;
     private String code;
     private int index;
@@ -55,10 +55,8 @@ public class LexicalAnalyzer {
         keywords.put("not", 28);
         keywords.put("or", 29);
         keywords.put("and", 30);
-        keywords.put("[", 31);
-        keywords.put("]", 32);
-        keywords.put("\n", 33);
-        OP = new ArrayList<Character>(Arrays.asList('+', '*', '/', '^', ',', '?', ':', '(', ')', '{', '}', '[', ']'));
+        keywords.put("\n", 31);
+        OP = new ArrayList<Character>(Arrays.asList('+', '*', '/', '^', ',', '?', ':', '(', ')', '{', '}'));
 
         lexicalExceptions = new ArrayList<>();
         tokenTable = new ArrayList<>();
@@ -72,7 +70,7 @@ public class LexicalAnalyzer {
         return lexicalExceptions;
     }
 
-    public ArrayList<Element> getTokenTable() {
+    public ArrayList<Lexeme> getTokenTable() {
         return tokenTable;
     }
 
@@ -84,7 +82,7 @@ public class LexicalAnalyzer {
         return constTable;
     }
 
-    public ArrayList<Label> getLabelTable() {
+    public List<Label> getLabelTable() {
         return labelTable;
     }
 
@@ -95,6 +93,7 @@ public class LexicalAnalyzer {
         indexConst = 0;
         indexLabel = 0;
         line = 1;
+        Lexeme.setId(0);
 
         lexicalExceptions.clear();
         tokenTable.clear();
@@ -302,7 +301,7 @@ public class LexicalAnalyzer {
 
     private void state10()
     {
-        tokenTable.add(new Element(line, "¶", keywords.get("\n"), -1 ));
+        tokenTable.add(new Lexeme(line, "¶", keywords.get("\n"), -1 ));
     }
 
     private void state11()    // label
@@ -348,22 +347,22 @@ public class LexicalAnalyzer {
 
     public void addToken()
     {
-        tokenTable.add(new Element(line, builder.toString(), keywords.get(builder.toString()), -1 ));
+        tokenTable.add(new Lexeme(line, builder.toString(), keywords.get(builder.toString()), -1 ));
     }
 
     public void addToken(Identifier ident)
     {
-        tokenTable.add(new Element(line, builder.toString(), LexemeType.IDENT.getValue(), ident.getIndex()));
+        tokenTable.add(new Lexeme(line, builder.toString(), LexemeType.IDENT.getValue(), ident.getIndex()));
     }
 
     public void addToken(Constant constant)
     {
-        tokenTable.add(new Element(line, builder.toString(), LexemeType.CONST.getValue(), constant.getIndex()));
+        tokenTable.add(new Lexeme(line, builder.toString(), LexemeType.CONST.getValue(), constant.getIndex()));
     }
 
     public void addToken(Label label)
     {
-        tokenTable.add(new Element(line, builder.toString(), LexemeType.LABEL.getValue(), label.getIndex()));
+        tokenTable.add(new Lexeme(line, builder.toString(), LexemeType.LABEL.getValue(), label.getIndex()));
     }
 
     public Identifier getIdentifier(String identifier)
@@ -465,7 +464,7 @@ public class LexicalAnalyzer {
 
     private boolean isDeclaration()
     {
-        for (Element tmp : tokenTable)
+        for (Lexeme tmp : tokenTable)
         {
             if (tmp.getLine() == line)
             {

@@ -1,6 +1,6 @@
 package parser;
 
-import lexer.Element;
+import lexer.Lexeme;
 import lexer.LexicalAnalyzer;
 import parser.transitions.DataTableField;
 import parser.transitions.State;
@@ -111,7 +111,7 @@ public class SyntaxAnalyzerAutomate {
 
     private String getCurrentLexeme() {
         if (i >= la.getTokenTable().size()) return curLex = "";
-        Element lexeme = la.getTokenTable().get(i);
+        Lexeme lexeme = la.getTokenTable().get(i);
         if (lexeme.getCode() > 99) {
             if (lexeme.getCode() == 100) {
                 curLex = lexeme.getText();

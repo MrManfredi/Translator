@@ -1,7 +1,7 @@
 package parser;
 
 import exceptions.syntactic.*;
-import lexer.Element;
+import lexer.Lexeme;
 import lexer.IdentifierType;
 import lexer.LexemeType;
 import lexer.LexicalAnalyzer;
@@ -16,7 +16,7 @@ public class SyntaxAnalyzer {
     private LexicalAnalyzer lex;
     private final String nothing = "nothing";
     private int index;
-    private Element currentLex;
+    private Lexeme currentLex;
     private int currentLine;
     private int balance;
 
