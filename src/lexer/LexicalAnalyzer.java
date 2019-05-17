@@ -14,10 +14,11 @@ public class LexicalAnalyzer {
     private List<Label> labelTable;
     private StringBuilder builder;
     private String code;
-    private int index;
+    private int currentCharIndex;
     private int indexIdent;
     private int indexConst;
     private int indexLabel;
+    private int currentId;
     private int line;
     private char tmp;
     private String lastType; // using only after isDeclaration() method
@@ -88,12 +89,12 @@ public class LexicalAnalyzer {
 
     public void init()
     {
-        index = 0;
+        currentCharIndex = 0;
         indexIdent = 0;
         indexConst = 0;
         indexLabel = 0;
+        currentId = 1;
         line = 1;
-        Lexeme.setId(0);
 
         lexicalExceptions.clear();
         tokenTable.clear();
@@ -119,7 +120,7 @@ public class LexicalAnalyzer {
 
     private void state1()
     {
-        tmp = code.charAt(index);
+        tmp = code.charAt(currentCharIndex);
         while (hasNextChar()) {
             if (Character.isLetter(tmp)) {
                 state2();   // identifier
@@ -301,7 +302,7 @@ public class LexicalAnalyzer {
 
     private void state10()
     {
-        tokenTable.add(new Lexeme(line, "¶", keywords.get("\n"), -1 ));
+        tokenTable.add(new Lexeme(currentId++, line, "¶", keywords.get("\n"), -1 ));
     }
 
     private void state11()    // label
@@ -324,13 +325,13 @@ public class LexicalAnalyzer {
     private void nextChar()
     {
         builder.append(tmp);
-        index++;
-        tmp = code.charAt(index);
+        currentCharIndex++;
+        tmp = code.charAt(currentCharIndex);
     }
 
     private boolean hasNextChar()
     {
-        if (code.length() > index + 1)
+        if (code.length() > currentCharIndex + 1)
         {
             return true;
         }
@@ -347,22 +348,22 @@ public class LexicalAnalyzer {
 
     public void addToken()
     {
-        tokenTable.add(new Lexeme(line, builder.toString(), keywords.get(builder.toString()), -1 ));
+        tokenTable.add(new Lexeme(currentId++, line, builder.toString(), keywords.get(builder.toString()), -1 ));
     }
 
     public void addToken(Identifier ident)
     {
-        tokenTable.add(new Lexeme(line, builder.toString(), LexemeType.IDENT.getValue(), ident.getIndex()));
+        tokenTable.add(new Lexeme(currentId++, line, builder.toString(), LexemeType.IDENT.getValue(), ident.getIndex()));
     }
 
     public void addToken(Constant constant)
     {
-        tokenTable.add(new Lexeme(line, builder.toString(), LexemeType.CONST.getValue(), constant.getIndex()));
+        tokenTable.add(new Lexeme(currentId++, line, builder.toString(), LexemeType.CONST.getValue(), constant.getIndex()));
     }
 
     public void addToken(Label label)
     {
-        tokenTable.add(new Lexeme(line, builder.toString(), LexemeType.LABEL.getValue(), label.getIndex()));
+        tokenTable.add(new Lexeme(currentId++, line, builder.toString(), LexemeType.LABEL.getValue(), label.getIndex()));
     }
 
     public Identifier getIdentifier(String identifier)

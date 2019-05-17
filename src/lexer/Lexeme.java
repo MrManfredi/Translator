@@ -1,13 +1,14 @@
 package lexer;
 
 public class Lexeme {
-    private static int id;
+    private int id;
     private int line;
     private String text;
     private int code;
     private int specialCode;
 
-    public Lexeme(int line, String text, int code, int specialCode) {
+    public Lexeme(int id, int line, String text, int code, int specialCode) {
+        this.id = id;
         this.line = line;
         this.text = text;
         this.code = code;
@@ -35,7 +36,7 @@ public class Lexeme {
     }
 
     public Integer getId() {
-        return id++;
+        return id;
     }
 
     public Integer getSpCodeIdn() {
@@ -48,9 +49,5 @@ public class Lexeme {
 
     public Integer getSpCodeLbl() {
         return (code == LexemeType.LABEL.getValue()) ? specialCode : null;
-    }
-
-    public static void setId(int id) {
-        Lexeme.id = id;
     }
 }
