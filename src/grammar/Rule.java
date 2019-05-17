@@ -16,17 +16,20 @@ public class Rule {
         rightSides.add(rightSide);
     }
 
-    public void show() {
-        System.out.print(leftSide + " = ");
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(leftSide).append(" = ");
         for (int i = 0; i < rightSides.size(); i++) {
-            rightSides.get(i).show();
+            builder.append(rightSides.get(i).toString());
             if (i + 1 < rightSides.size()) {
-                System.out.print(" | ");
+                builder.append("  |  ");
             }
             else {
-                System.out.println(".");
+                builder.append(".\n");
             }
         }
+        return builder.toString();
     }
 
     public String getLeftSide() {

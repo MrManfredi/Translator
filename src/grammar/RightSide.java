@@ -18,8 +18,16 @@ public class RightSide {
         words.add(word);
     }
 
-    public void show() {
-        System.out.print(words);
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < words.size(); i++) {
+            builder.append(words.get(i));
+            if (i + 1 < words.size()) {
+                builder.append("  ,  ");
+            }
+        }
+        return builder.toString();
     }
 
     public List<String> getWords() {

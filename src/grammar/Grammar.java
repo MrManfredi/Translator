@@ -17,10 +17,13 @@ public class Grammar {
         nonterminals.add(rule.getLeftSide());
     }
 
-    void show() {
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
         for (Rule rule : rules) {
-            rule.show();
+            builder.append(rule.toString());
         }
+        return builder.toString();
     }
 
     public List<Rule> getRules() {

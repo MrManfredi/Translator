@@ -17,7 +17,7 @@ public class GrammarParser {
 
     public static void main(String[] args) {
         Grammar testGrammar = GrammarParser.parse("res/grammar.json");
-        testGrammar.show();
+        System.out.println(testGrammar.toString());
     }
 
     static public Grammar parse(String fileName) {
