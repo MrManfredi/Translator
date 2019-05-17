@@ -5,7 +5,7 @@
   "Declaration": [["Type", "Identifier" ], ["Declaration", ",", "Identifier"]],
   "StatementsList2": [["StatementsList"]],
   "StatementsList": [["Statement"], ["StatementsList", "Statement"]],
-  "Statement": [["ConditionalTransition"], ["Cycle"], ["Appropriation"], ["Input"], ["Output"], ["Label"]],
+  "Statement": [["ConditionalTransition"], ["Cycle"], ["Appropriation"], ["Input"], ["Output"], ["Label"], ["TernaryStatement"]],
   "Cycle": [["repeat", "{", "StatementsList2", "}", "until", "(", "LE2", ")"]],
   "ConditionalTransition": [["if", "(", "LE2", ")", "goto", "Label"]],
   "Appropriation": [["Identifier", "=", "Expression3"]],

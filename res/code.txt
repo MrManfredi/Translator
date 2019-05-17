@@ -1,14 +1,20 @@
-int indexInTable
-indexInTable = 10
-if (indexInTable < 20)
+int mark, plus
 {
-    out << indexInTable
-    repeat
-    {
-        if (a !! 50)
+        prettyPlace:
+        in >> mark
+        if (mark >= 60) goto nice:
+        plus = 10
+        repeat
         {
-            a = 50 + 10
+                mark = mark + plus
+        } until (mark < 60)
+        if (mark == 100)
+        {
+                nice:
+                out << mark
         }
-        out << indexInTable * 20
-    } until(indexInTable < 20)
+
+        if (mark <= 85) goto prettyPlace:
+
+        mark = (plus <= 20) ? 1 : 100 
 }
