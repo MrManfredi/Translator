@@ -6,13 +6,7 @@ import grammar.RightSide;
 import grammar.Rule;
 import parser.Sharp;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Precedence {
     private Grammar grammar;
@@ -66,13 +60,11 @@ public class Precedence {
                 }
             }
         }
-        Set<String> units = precedenceStorage.getPrecedenceStorage().keySet();
-        PrecedenceStorage tempPrecedenceStorage = new PrecedenceStorage();
-        for (String unit : units) {
-            tempPrecedenceStorage.addСorrelation(Sharp.name(), unit, RatioType.LESS);
-            tempPrecedenceStorage.addСorrelation(unit, Sharp.name(), RatioType.MORE);
+        Object[] units = precedenceStorage.getPrecedenceStorage().keySet().toArray();
+        for (Object unit : units) {
+            precedenceStorage.addСorrelation(Sharp.name(), unit.toString(), RatioType.LESS);
+            precedenceStorage.addСorrelation(unit.toString(), Sharp.name(), RatioType.MORE);
         }
-        precedenceStorage.getPrecedenceStorage().putAll(tempPrecedenceStorage.getPrecedenceStorage());
     }
 
     private List<String> calculateFirstPlus(String word) {
@@ -132,6 +124,7 @@ public class Precedence {
     public static void main(String[] args) {
         Grammar grammar = GrammarParser.parse("res/grammar.json");
         Precedence precedence = new Precedence(grammar);
+        precedence.computePrecedences();
         PrecedenceTable.createHtmlFile(precedence.getPrecedenceStorage(), "res/precedence_table.html");
         System.out.println("From class Precedence");
     }
