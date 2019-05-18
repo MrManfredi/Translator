@@ -21,7 +21,9 @@
   "Expression": [["Term2"], ["Expression", "+", "Term2"], ["Expression", "-", "Term2"]],
   "Term2": [["Term"]],
   "Term": [["Multiplier"], ["Term", "*", "Multiplier"], ["Term", "/", "Multiplier"]],
-  "Multiplier": [["Identifier"],["Constant"], ["(", "Expression3", ")"]],
+  "Multiplier": [["Mlt"], ["-", "Mlt2"]],
+  "Mlt2": [["Mlt"]],
+  "Mlt": [["Identifier"],["Constant"], ["(", "Expression3", ")"]],
   "Input": [["in", ">>", "Identifier"], ["Input", ">>", "Identifier"]],
   "Output": [["out", "<<", "Expression3"], ["Output", "<<", "Expression3"]],
   "ComparisonMark": [["<"], ["<="], ["=="], ["!="], [">"], [">="]]
