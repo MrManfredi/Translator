@@ -302,7 +302,7 @@ public class LexicalAnalyzer {
 
     private void state10()
     {
-        tokenTable.add(new Lexeme(currentId++, line, "¶", keywords.get("\n"), -1 ));
+        tokenTable.add(new Lexeme(currentId++, line, "¶", keywords.get("\n"), null ));
     }
 
     private void state11()    // label
@@ -348,7 +348,7 @@ public class LexicalAnalyzer {
 
     public void addToken()
     {
-        tokenTable.add(new Lexeme(currentId++, line, builder.toString(), keywords.get(builder.toString()), -1 ));
+        tokenTable.add(new Lexeme(currentId++, line, builder.toString(), keywords.get(builder.toString()), null ));
     }
 
     public void addToken(Identifier ident)

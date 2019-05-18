@@ -1,50 +1,30 @@
 package precedence;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Relation {
-    private boolean less;
-    private boolean equal;
-    private boolean more;
+    private Map<String, Ratio> relation;
 
     public Relation() {
+        relation = new HashMap<>();
     }
 
-    public Relation(RelationType relation) {
-        setRelation(relation);
+    Relation(String rightWord, RatioType relation) {
+        this.relation = new HashMap<>();
+        this.relation.put(rightWord, new Ratio(relation));
     }
 
-    public void setRelation(RelationType relation) {
-        switch (relation)
-        {
-            case LESS:
-                less = true;
-                break;
-            case EQUAL:
-                equal = true;
-                break;
-            case MORE:
-                more = true;
-                break;
+    void addRelation(String rightWord, RatioType ratio) {
+        if (this.relation.containsKey(rightWord)){
+            this.relation.get(rightWord).setRatio(ratio);
+        }
+        else {
+            this.relation.put(rightWord, new Ratio(ratio));
         }
     }
 
-    public boolean hasConflict(){
-        return getRelations().size() < 2 ? false : true;
-    }
-
-    public List<RelationType> getRelations() {
-        List<RelationType> list = new ArrayList<>();
-        if (less) {
-            list.add(RelationType.LESS);
-        }
-        if (equal) {
-            list.add(RelationType.EQUAL);
-        }
-        if (more) {
-            list.add(RelationType.MORE);
-        }
-        return list;
+    public Map<String, Ratio> getRelation() {
+        return relation;
     }
 }

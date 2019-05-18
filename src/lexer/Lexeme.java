@@ -5,9 +5,9 @@ public class Lexeme {
     private int line;
     private String text;
     private int code;
-    private int specialCode;
+    private Integer specialCode;
 
-    public Lexeme(int id, int line, String text, int code, int specialCode) {
+    public Lexeme(int id, int line, String text, int code, Integer specialCode) {
         this.id = id;
         this.line = line;
         this.text = text;

@@ -1,6 +1,6 @@
 package precedence;
 
-public enum RelationType {
+public enum RatioType {
     LESS,
     EQUAL,
     MORE
