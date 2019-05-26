@@ -50,4 +50,9 @@ public class Lexeme {
     public Integer getSpCodeLbl() {
         return (code == LexemeType.LABEL.getValue()) ? specialCode : null;
     }
+
+    @Override
+    public String toString() {
+        return text;
+    }
 }

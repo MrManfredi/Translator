@@ -22,4 +22,12 @@ public class PrecedenceStorage {
     public Map<String, Relation> getPrecedenceStorage() {
         return precedenceStorage;
     }
+
+    public RatioType calculateRatio(String leftWord, String rightWord) {
+        if (precedenceStorage.containsKey(leftWord)) {
+            Relation tempRelation = precedenceStorage.get(leftWord);
+            return tempRelation.getRelation().get(rightWord).getRatio();
+        }
+        return null;
+    }
 }

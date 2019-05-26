@@ -38,9 +38,10 @@ public class GrammarParser {
                     for (int j = 0; j < rightSide.length(); j++) {
                         Object word = rightSide.get(j);
                         words.add(word.toString());
-                        //System.out.println(word);
                     }
-                    rule.addCase(new RightSide(words));
+                    RightSide tempRightSide = new RightSide(words);
+                    rule.addCase(tempRightSide);
+                    grammar.addReverseRule(tempRightSide, leftSide);
                 }
                 grammar.addRule(rule);
             }

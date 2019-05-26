@@ -15,9 +15,10 @@ public class Precedence {
     public Precedence(Grammar grammar) {
         this.grammar = grammar;
         this.precedenceStorage = new PrecedenceStorage();
+        computePrecedences();
     }
 
-    public void computePrecedences() {
+    private void computePrecedences() {
         precedenceStorage = new PrecedenceStorage();
         List<Rule> rules = grammar.getRules();
         for (Rule rule : rules) {
@@ -121,10 +122,13 @@ public class Precedence {
         return precedenceStorage;
     }
 
+    public Grammar getGrammar() {
+        return grammar;
+    }
+
     public static void main(String[] args) {
         Grammar grammar = GrammarParser.parse("res/grammar.json");
         Precedence precedence = new Precedence(grammar);
-        precedence.computePrecedences();
         PrecedenceTable.createHtmlFile(precedence.getPrecedenceStorage(), "res/precedence_table.html");
         System.out.println("From class Precedence");
     }

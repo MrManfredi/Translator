@@ -1,15 +1,18 @@
 package grammar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Grammar {
-    private List<Rule> rules;
+    private List<Rule> rules;                   // grammar
     private List<String> nonterminals;
+    private HashMap<RightSide, String> reverseRules;    // reverse grammar
 
     Grammar() {
         rules = new ArrayList<>();
         nonterminals = new ArrayList<>();
+        reverseRules = new HashMap<>();
     }
 
     void addRule(Rule rule) {
@@ -41,5 +44,13 @@ public class Grammar {
 
     public List<String> getNonterminals() {
         return nonterminals;
+    }
+
+    public void addReverseRule(RightSide rightSide, String leftSide) {
+        reverseRules.put(rightSide, leftSide);
+    }
+
+    public HashMap<RightSide, String> getReverseRules() {
+        return reverseRules;
     }
 }

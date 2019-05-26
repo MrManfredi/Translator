@@ -47,4 +47,19 @@ public class Ratio {
         }
         return list;
     }
+
+    public RatioType getRatio() {
+        if (!hasConflict()) {
+            if (less) {
+                return RatioType.LESS;
+            }
+            if (equal) {
+                return RatioType.EQUAL;
+            }
+            if (more) {
+                return RatioType.MORE;
+            }
+        }
+        return null;
+    }
 }
