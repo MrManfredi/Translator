@@ -26,7 +26,9 @@ public class PrecedenceStorage {
     public RatioType calculateRatio(String leftWord, String rightWord) {
         if (precedenceStorage.containsKey(leftWord)) {
             Relation tempRelation = precedenceStorage.get(leftWord);
-            return tempRelation.getRelation().get(rightWord).getRatio();
+            Ratio ratio = tempRelation.getRelation().get(rightWord);
+            if (ratio != null)
+                return ratio.getRatio();
         }
         return null;
     }

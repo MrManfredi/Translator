@@ -2,6 +2,7 @@ package grammar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 
 public class RightSide {
@@ -36,6 +37,19 @@ public class RightSide {
             }
         }
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RightSide rightSide = (RightSide) o;
+        return Objects.equals(words, rightSide.words);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(words);
     }
 
     public List<String> getWords() {
