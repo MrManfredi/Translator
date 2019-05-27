@@ -1,20 +1,12 @@
 int mark, plus
-{
-        prettyPlace:
+{       prettyPlace:
         in >> mark
         if (mark >= 60) goto nice:
         plus = 10
-        repeat
-        {
-                mark = mark + plus
+        repeat { mark = mark + plus
         } until (mark < 60)
-        if (mark == 100)
-        {
-                nice:
-                out << mark
-        }
-
+ 
         if (mark <= 85) goto prettyPlace:
-
-        mark = (plus <= 20) ? 1 : 100 
+        nice:
+        mark = (plus <= 20) ? 1 : 100
 }

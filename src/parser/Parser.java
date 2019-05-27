@@ -1,8 +1,9 @@
 package parser;
 
-import exceptions.syntactic.NoRatioBetweenTokensError;
-import exceptions.syntactic.RuleNotFoundError;
-import exceptions.syntactic.SyntaxError;
+import errors.syntactic.NoRatioBetweenTokensError;
+import errors.syntactic.RuleNotFoundError;
+import errors.syntactic.SyntacticAnalysisRejectedError;
+import errors.syntactic.SyntaxError;
 import grammar.Grammar;
 import grammar.GrammarParser;
 import grammar.RightSide;
@@ -34,28 +35,35 @@ public class Parser {
 
     public Parser(LexicalAnalyzer scanner, Precedence precedence) {
         this.scanner = scanner;
-        this.precedence = precedence;
-        precedenceStorage = precedence.getPrecedenceStorage();
-        reverseRules = precedence.getGrammar().getReverseRules();
-        //
-        // for table
-        //
+
+        if (!scanner.getLexicalErrors().isEmpty()) {
+            syntaxError = new SyntacticAnalysisRejectedError("There is errors in lexical analysis.");
+        } else if (scanner.getTokenTable().isEmpty()) {
+            syntaxError = new SyntacticAnalysisRejectedError("Source code is empty.");
+        } else {
+            this.precedence = precedence;
+            precedenceStorage = precedence.getPrecedenceStorage();
+            reverseRules = precedence.getGrammar().getReverseRules();
+            //
+            // for table
+            //
+            currentId = 1;
+            currentStack = new Stack<>();
+            currentRatio = null;
+            // sharp in the beginning of the source sequence
+            scanner.getTokenTable().add(0, new Lexeme(0, scanner.getTokenTable().get(0).getLine(), Sharp.name(), Sharp.code(), null));
+            sourceSequence  = new LinkedList<>(scanner.getTokenTable());
+            // sharp in the end of the source sequence
+            Lexeme lastLexeme = scanner.getTokenTable().get(sourceSequence.size() - 1);
+            sourceSequence.add(new Lexeme(lastLexeme.getId() + 1, lastLexeme.getLine(), Sharp.name(), Sharp.code(), null));
+            currentBasisStack = new Stack<>();
+            syntaxError = null;
+        }
         parsingTable = new ParsingTable();
-        currentId = 1;
-        currentStack = new Stack<>();
-        currentRatio = null;
-        // sharp in the beginning of the source sequence
-        scanner.getTokenTable().add(0, new Lexeme(0, scanner.getTokenTable().get(0).getLine(), Sharp.name(), Sharp.code(), null));
-        sourceSequence  = new LinkedList<>(scanner.getTokenTable());
-        // sharp in the end of the source sequence
-        Lexeme lastLexeme = scanner.getTokenTable().get(sourceSequence.size() - 1);
-        sourceSequence.add(new Lexeme(lastLexeme.getId() + 1, lastLexeme.getLine(), Sharp.name(), Sharp.code(), null));
-        currentBasisStack = new Stack<>();
-        syntaxError = null;
     }
 
     public void run() {
-        do {
+        while (syntaxError == null && sourceSequence.size() > 1) {
             if (!readFromSequenceToStack()) {
                 break;
             }
@@ -64,7 +72,7 @@ public class Parser {
             currentId++;
 
             compress();
-        } while (sourceSequence.size() > 1 && syntaxError == null);
+        }
     }
 
     private String getName(Lexeme lexeme) {
@@ -109,25 +117,35 @@ public class Parser {
                 return;
             }
 
-            if (currentTransitionalWord.equals("Program"))
-                return;
+            if (!currentTransitionalWord.equals("Program")) {
+                currentRatio = precedenceStorage.calculateRatio(currentStack.peek().getName(), currentTransitionalWord);
+                if (currentRatio == null) {
+                    syntaxError = new NoRatioBetweenTokensError(sourceSequence.element().getLine(), currentStack.peek().getName(), currentTransitionalWord);
+                    return;
+                }
+                currentStack.peek().setRatio(currentRatio);
 
-            currentRatio = precedenceStorage.calculateRatio(currentStack.peek().getName(), currentTransitionalWord);
-            if (currentRatio == null) {
-                syntaxError = new NoRatioBetweenTokensError(sourceSequence.element().getLine(), currentStack.peek().getName(), currentTransitionalWord);
-                return;
+                currentRatio = precedenceStorage.calculateRatio(currentTransitionalWord, currentRightWord);
+                if (currentRatio == null) {
+                    syntaxError = new NoRatioBetweenTokensError(sourceSequence.element().getLine(), currentTransitionalWord, currentRightWord);
+                    return;
+                }
+            } else {
+                currentRatio = RatioType.MORE;
             }
-            currentStack.peek().setRatio(currentRatio);
 
-            currentRatio = precedenceStorage.calculateRatio(currentTransitionalWord, currentRightWord);
-            if (currentRatio == null) {
-                syntaxError = new NoRatioBetweenTokensError(sourceSequence.element().getLine(), currentTransitionalWord, currentRightWord);
-                return;
-            }
             currentStack.push(new Unit(currentTransitionalWord, currentRatio));
             parsingTable.addRow(new ParsingTableRow(currentId, currentStack, currentRatio, sourceSequence, currentBasis));
             currentId++;
         }
+    }
+
+    public ParsingTable getParsingTable() {
+        return parsingTable;
+    }
+
+    public SyntaxError getSyntaxError() {
+        return syntaxError;
     }
 
     public static void main(String[] args) {

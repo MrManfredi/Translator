@@ -1,8 +1,10 @@
 package gui;
 
-import exceptions.lexical.LexicalException;
+import errors.lexical.LexicalError;
+import errors.syntactic.SyntaxError;
 import grammar.Grammar;
 import grammar.GrammarParser;
+import grammar.RightSide;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,33 +16,51 @@ import lexer.Constant;
 import lexer.Identifier;
 import lexer.Lexeme;
 import lexer.LexicalAnalyzer;
+import parser.Parser;
+import parser.ParsingTableRow;
+import parser.Unit;
+import precedence.Precedence;
+import precedence.RatioType;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Controller {
     private Grammar grammar;
-    private LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
+    private LexicalAnalyzer lexicalAnalyzer;
+    private Precedence precedence;
+    private Parser parser;
 
     // Menu panel
-    @FXML
-    private MenuItem menu_run_lexical_analyser;
 
+    //file
     @FXML
     private MenuItem menu_file_open;
 
     @FXML
     private MenuItem menu_file_save;
 
+    // run
+    @FXML
+    private MenuItem menu_run_lexical_analyser;
+
+    @FXML
+    private MenuItem menu_run_parser;
+
+    // code area
     @FXML
     private TextArea codeArea;
 
     /* Tabs */
     @FXML
     private Tab LA_errors_tab;
+
+    @FXML
+    private Tab parser_errors_tab;
 
     /* Lexical Analyser */
 
@@ -94,21 +114,45 @@ public class Controller {
 
     // Errors
     @FXML
-    private TableView<LexicalException> LA_errors_table;
+    private TableView<LexicalError> LA_errors_table;
     @FXML
-    private TableColumn<LexicalException, String> LAE_message;
+    private TableColumn<LexicalError, String> LAE_message;
 
     // Grammar
     @FXML
     private TextArea grammarArea;
 
+    /* Parser */
+    @FXML
+    private TableView<ParsingTableRow> parsing_table;
+    @FXML
+    private TableColumn<ParsingTableRow, Integer> PT_id;
+    @FXML
+    private TableColumn<ParsingTableRow, List<Unit>> PT_stack;
+    @FXML
+    private TableColumn<ParsingTableRow, RatioType> PT_ratio;
+    @FXML
+    private TableColumn<ParsingTableRow, List<Lexeme>> PT_source_sequence;
+    @FXML
+    private TableColumn<ParsingTableRow, RightSide> PT_basis;
+    // errors table
+    @FXML
+    private TableView<SyntaxError> parsing_errors_table;
+    @FXML
+    private TableColumn<SyntaxError, String> PE_message;
+
+
     @FXML
     void initialize() {
         initGrammar();
+        lexicalAnalyzer = new LexicalAnalyzer();
+        precedence = new Precedence(grammar);
         initLexerTables();
+        initParserTables();
         event_menu_file_open();
         event_menu_file_save();
         event_menu_run_lexical_analyser();
+        event_menu_run_parser();
     }
 
     private void initGrammar() {
@@ -145,15 +189,49 @@ public class Controller {
         LAE_message.setCellValueFactory(new PropertyValueFactory<>("message"));
     }
 
+    private void initParserTables() {
+        PT_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        PT_stack.setCellValueFactory(new PropertyValueFactory<>("stack"));
+        PT_ratio.setCellValueFactory(new PropertyValueFactory<>("ratio"));
+        PT_source_sequence.setCellValueFactory(new PropertyValueFactory<>("sourceSequence"));
+        PT_basis.setCellValueFactory(new PropertyValueFactory<>("basis"));
+
+        PE_message.setCellValueFactory(new PropertyValueFactory<>("message"));
+    }
+
     private void event_menu_run_lexical_analyser() {
         this.menu_run_lexical_analyser.setOnAction(event -> {
-            lexicalAnalyzer.run(codeArea.getText());
-            setLA_tokens_table();
-            setLA_identifiers_table();
-            setLA_constants_table();
-            setLA_labels_table();
-            setLA_errors_table();
+            run_lexical_analysis();
         });
+    }
+
+    private void run_lexical_analysis() {
+        lexicalAnalyzer.run(codeArea.getText());
+        setLA_tokens_table();
+        setLA_identifiers_table();
+        setLA_constants_table();
+        setLA_labels_table();
+        setLA_errors_table();
+        clear_parsing_tables();
+    }
+
+    private void event_menu_run_parser() {
+        this.menu_run_parser.setOnAction(event -> {
+            run_lexical_analysis();
+            run_parsing();
+        });
+    }
+
+    private void run_parsing() {
+        parser = new Parser(lexicalAnalyzer, precedence);
+        parser.run();
+        setParsing_table();
+        setParsing_errors_table();
+    }
+
+    private void clear_parsing_tables() {
+        parsing_table.setItems(null);
+        parsing_errors_table.setItems(null);
     }
 
     private void event_menu_file_open() {
@@ -212,13 +290,29 @@ public class Controller {
     }
 
     private void setLA_errors_table() {
-        ObservableList<LexicalException> errors = FXCollections.observableArrayList(lexicalAnalyzer.getLexicalExceptions());
+        ObservableList<LexicalError> errors = FXCollections.observableArrayList(lexicalAnalyzer.getLexicalErrors());
         LA_errors_table.setItems(errors);
         if (!errors.isEmpty()) {
             LA_errors_tab.setStyle("-fx-color: red");
         }
         else {
             LA_errors_tab.setStyle("-fx-color: #dddddd");
+        }
+    }
+
+    private void setParsing_table() {
+        ObservableList<ParsingTableRow> tableRows = FXCollections.observableArrayList(parser.getParsingTable().getParsingTableRows());
+        parsing_table.setItems(tableRows);
+    }
+
+    private void setParsing_errors_table() {
+        ObservableList<SyntaxError> errors = FXCollections.observableArrayList(parser.getSyntaxError());
+        parsing_errors_table.setItems(errors);
+        if (parser.getSyntaxError() != null) {
+            parser_errors_tab.setStyle("-fx-color: red");
+        }
+        else {
+            parser_errors_tab.setStyle("-fx-color: #dddddd");
         }
     }
 }

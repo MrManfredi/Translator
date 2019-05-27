@@ -1,4 +1,4 @@
-package exceptions.syntactic;
+package errors.syntactic;
 
 public class NoRatioBetweenTokensError extends SyntaxError {
     public NoRatioBetweenTokensError(Integer line, String leftWord, String rightWord) {

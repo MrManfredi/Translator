@@ -17,8 +17,9 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Run">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Run" />
                         <MenuItem fx:id="menu_run_lexical_analyser" mnemonicParsing="false" text="Lexical Analyser" />
+                  <MenuItem fx:id="menu_run_parser" mnemonicParsing="false" text="Parser" />
+                        <MenuItem mnemonicParsing="false" text="Run" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -30,7 +31,7 @@
         </MenuBar>
         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
             <children>
-                <SplitPane dividerPositions="0.5" HBox.hgrow="ALWAYS">
+                <SplitPane dividerPositions="0.25" HBox.hgrow="ALWAYS">
                     <items>
                         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                             <children>
@@ -120,7 +121,7 @@
                                                    <children>
                                                       <TableView fx:id="LA_errors_table" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                                         <columns>
-                                                          <TableColumn fx:id="LAE_message" minWidth="200.0" prefWidth="75.0" text="message" />
+                                                          <TableColumn fx:id="LAE_message" minWidth="200.0" prefWidth="75.0" text="Message" />
                                                         </columns>
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -134,16 +135,42 @@
                                                 </TabPane>
                                             </content>
                                         </Tab>
-                                        <Tab text="Parser">
-                                            <content>
-                                                <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-                                                    <tabs>
-                                                        <Tab text="Transitions" />
-                                                        <Tab text="Untitled Tab 2" />
-                                                    </tabs>
-                                                </TabPane>
-                                            </content>
+                              <Tab text="Parser">
+                                 <content>
+                                    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                                      <tabs>
+                                        <Tab text="Table">
+                                             <content>
+                                                <TableView fx:id="parsing_table" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
+                                                  <columns>
+                                                    <TableColumn fx:id="PT_id" maxWidth="900.0" prefWidth="20.0" text="№" />
+                                                    <TableColumn fx:id="PT_stack" minWidth="50.0" prefWidth="200.0" text="Stack" />
+                                                      <TableColumn fx:id="PT_ratio" maxWidth="900.0" minWidth="20.0" prefWidth="20.0" text="Ratio" />
+                                                      <TableColumn fx:id="PT_source_sequence" minWidth="50.0" prefWidth="200.0" text="Source sequence" />
+                                                      <TableColumn fx:id="PT_basis" maxWidth="2000.0" minWidth="20.0" prefWidth="75.0" text="Basis" />
+                                                  </columns>
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                </TableView>
+                                             </content>
                                         </Tab>
+                                        <Tab fx:id="parser_errors_tab" text="Errors">
+                                             <content>
+                                                <TableView fx:id="parsing_errors_table" prefHeight="200.0" prefWidth="200.0">
+                                                  <columns>
+                                                    <TableColumn fx:id="PE_message" prefWidth="75.0" text="Message" />
+                                                  </columns>
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                </TableView>
+                                             </content>
+                                        </Tab>
+                                      </tabs>
+                                    </TabPane>
+                                 </content>
+                              </Tab>
                                     </tabs>
                                 </TabPane>
                             </children>

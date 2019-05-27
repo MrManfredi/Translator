@@ -1,12 +1,12 @@
-package exceptions.syntactic;
+package errors;
 
-public abstract class SyntaxError {
+public abstract class Error {
     private String message;
 
-    SyntaxError(Integer line, String message)
+    public Error(Integer line, String errorType, String message)
     {
         StringBuilder builder = new StringBuilder();
-        builder.append("Syntactic error");
+        builder.append(errorType).append(" error");
         if (line != null)
         {
             builder.append(" in line: ").append(line);

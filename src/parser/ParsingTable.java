@@ -13,4 +13,8 @@ public class ParsingTable {
     public void addRow(ParsingTableRow row) {
         parsingTableRows.add(row);
     }
+
+    public List<ParsingTableRow> getParsingTableRows() {
+        return parsingTableRows;
+    }
 }

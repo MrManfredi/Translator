@@ -1,4 +1,4 @@
-package exceptions.syntactic;
+package errors.syntactic;
 
 import grammar.RightSide;
 

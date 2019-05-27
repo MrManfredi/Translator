@@ -1,13 +1,13 @@
 package lexer;
 
-import exceptions.lexical.*;
+import errors.lexical.*;
 
 import java.util.*;
 
 public class LexicalAnalyzer {
     static private Map<String, Integer> keywords;
     static private ArrayList<Character> OP;
-    private List<LexicalException> lexicalExceptions;
+    private List<LexicalError> lexicalErrors;
     private ArrayList<Lexeme> tokenTable;
     private ArrayList<Identifier> identTable;
     private ArrayList<Constant> constTable;
@@ -59,7 +59,7 @@ public class LexicalAnalyzer {
         keywords.put("\n", 31);
         OP = new ArrayList<Character>(Arrays.asList('+', '*', '/', '^', ',', '?', ':', '(', ')', '{', '}'));
 
-        lexicalExceptions = new ArrayList<>();
+        lexicalErrors = new ArrayList<>();
         tokenTable = new ArrayList<>();
         identTable = new ArrayList<>();
         constTable = new ArrayList<>();
@@ -67,8 +67,8 @@ public class LexicalAnalyzer {
         builder = new StringBuilder();
     }
 
-    public List<LexicalException> getLexicalExceptions() {
-        return lexicalExceptions;
+    public List<LexicalError> getLexicalErrors() {
+        return lexicalErrors;
     }
 
     public ArrayList<Lexeme> getTokenTable() {
@@ -96,7 +96,7 @@ public class LexicalAnalyzer {
         currentId = 1;
         line = 1;
 
-        lexicalExceptions.clear();
+        lexicalErrors.clear();
         tokenTable.clear();
         identTable.clear();
         constTable.clear();
@@ -109,7 +109,7 @@ public class LexicalAnalyzer {
         code = text + " ";
         state1();
         checkLabelErrors();
-        if (!lexicalExceptions.isEmpty())
+        if (!lexicalErrors.isEmpty())
         {
             tokenTable.clear();
             identTable.clear();
@@ -153,7 +153,7 @@ public class LexicalAnalyzer {
                 }
             }
             else {
-                lexicalExceptions.add(new UnknownSymbolException(tmp, line));
+                lexicalErrors.add(new UnknownSymbolError(tmp, line));
                 nextChar();
             }
             clearBuilder();
@@ -181,7 +181,7 @@ public class LexicalAnalyzer {
                     // перевірка на повторну декларацію
                     if (isDeclaration())
                     {
-                        lexicalExceptions.add(new VariableReDeclarationException(line, builder.toString()));
+                        lexicalErrors.add(new VariableReDeclarationError(line, builder.toString()));
                     }
                     // уже задекларований ідентифікатор (індекс і тип беруться з таблиці)
                     temp = new Identifier(builder.toString(), getIdentifier(builder.toString()).getIndex(), getIdentifier(builder.toString()).getType());
@@ -194,7 +194,7 @@ public class LexicalAnalyzer {
                     }
                     else
                     {
-                        lexicalExceptions.add(new VariableUsedWithoutDeclarationException(line, builder.toString()));
+                        lexicalErrors.add(new VariableUsedWithoutDeclarationError(line, builder.toString()));
                         temp = new Identifier(builder.toString(), ++indexIdent, "Not Declared");
                     }
                     // creating new identifier
@@ -296,7 +296,7 @@ public class LexicalAnalyzer {
         }
         else
         {
-            lexicalExceptions.add(new ExpectedSymbolException(line, "!", "="));
+            lexicalErrors.add(new ExpectedSymbolError(line, "!", "="));
         }
     }
 
@@ -444,7 +444,7 @@ public class LexicalAnalyzer {
                     }
                     else
                     {
-                        lexicalExceptions.add(new LabelRepeatedCallException(line, label));
+                        lexicalErrors.add(new LabelRepeatedCallError(line, label));
                     }
                 }
                 else
@@ -455,7 +455,7 @@ public class LexicalAnalyzer {
                     }
                     else
                     {
-                        lexicalExceptions.add(new LabelReDeclarationException(line, label));
+                        lexicalErrors.add(new LabelReDeclarationError(line, label));
                     }
                 }
 
@@ -488,7 +488,7 @@ public class LexicalAnalyzer {
         {
             if (tmp.getLineTo() == -1)
             {
-                lexicalExceptions.add(new LabelNotDeclaratedException(-1, tmp.getLabel()));
+                lexicalErrors.add(new LabelNotDeclaratedError(-1, tmp.getLabel()));
             }
         }
     }
