@@ -1,13 +1,13 @@
 package precedence;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class PrecedenceStorage {
     private Map<String, Relation> precedenceStorage;
 
     public PrecedenceStorage() {
-        precedenceStorage = new HashMap<>();
+        precedenceStorage = new TreeMap<>();
     }
 
     public void addСorrelation(String leftWord, String rightWord, RatioType ratio) {

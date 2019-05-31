@@ -6,10 +6,6 @@ import java.util.Map;
 public class Relation {
     private Map<String, Ratio> relation;
 
-    public Relation() {
-        relation = new HashMap<>();
-    }
-
     Relation(String rightWord, RatioType relation) {
         this.relation = new HashMap<>();
         this.relation.put(rightWord, new Ratio(relation));

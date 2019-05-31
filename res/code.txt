@@ -3,7 +3,7 @@ int mark, plus
         in >> mark
         if (mark >= 60) goto nice:
         plus = 10
-        repeat { mark = mark + plus
+        repeat { mark = -(2 + plus)
         } until (mark < 60)
  
         if (mark <= 85) goto prettyPlace:

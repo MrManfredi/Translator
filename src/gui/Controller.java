@@ -12,10 +12,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import lexer.Constant;
-import lexer.Identifier;
-import lexer.Lexeme;
-import lexer.LexicalAnalyzer;
+import lexer.ScanTablesStorage;
+import lexer.values.Constant;
+import lexer.values.Identifier;
+import lexer.values.Lexeme;
+import lexer.Scanner;
+import lexer.values.Label;
 import parser.Parser;
 import parser.ParsingTableRow;
 import parser.Unit;
@@ -31,7 +33,8 @@ import java.util.List;
 
 public class Controller {
     private Grammar grammar;
-    private LexicalAnalyzer lexicalAnalyzer;
+    private Scanner scanner;
+    private ScanTablesStorage scanTablesStorage;
     private Precedence precedence;
     private Parser parser;
 
@@ -102,15 +105,15 @@ public class Controller {
 
     // Labels
     @FXML
-    private TableView<lexer.Label> LA_labels_table;
+    private TableView<Label> LA_labels_table;
     @FXML
-    private TableColumn<lexer.Label, Integer> LAL_id;
+    private TableColumn<Label, Integer> LAL_id;
     @FXML
-    private TableColumn<lexer.Label, String> LAL_name;
+    private TableColumn<Label, String> LAL_name;
     @FXML
-    private TableColumn<lexer.Label, Integer> LAL_line_from;
+    private TableColumn<Label, Integer> LAL_line_from;
     @FXML
-    private TableColumn<lexer.Label, Integer> LAL_line_to;
+    private TableColumn<Label, Integer> LAL_line_to;
 
     // Errors
     @FXML
@@ -145,7 +148,7 @@ public class Controller {
     @FXML
     void initialize() {
         initGrammar();
-        lexicalAnalyzer = new LexicalAnalyzer();
+        scanner = new Scanner();
         precedence = new Precedence(grammar);
         initLexerTables();
         initParserTables();
@@ -168,21 +171,21 @@ public class Controller {
     private void initLexerTables() {
         LAT_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         LAT_line.setCellValueFactory(new PropertyValueFactory<>("line"));
-        LAT_lexeme.setCellValueFactory(new PropertyValueFactory<>("text"));
+        LAT_lexeme.setCellValueFactory(new PropertyValueFactory<>("name"));
         LAT_lexeme_code.setCellValueFactory(new PropertyValueFactory<>("code"));
         LAT_identifier_code.setCellValueFactory(new PropertyValueFactory<>("spCodeIdn"));
         LAT_constant_code.setCellValueFactory(new PropertyValueFactory<>("spCodeCon"));
         LAT_label_code.setCellValueFactory(new PropertyValueFactory<>("spCodeLbl"));
 
         LAI_id.setCellValueFactory(new PropertyValueFactory<>("index"));
-        LAI_name.setCellValueFactory(new PropertyValueFactory<>("identifier"));
+        LAI_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         LAI_type.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         LAC_id.setCellValueFactory(new PropertyValueFactory<>("index"));
-        LAC_value.setCellValueFactory(new PropertyValueFactory<>("constant"));
+        LAC_value.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         LAL_id.setCellValueFactory(new PropertyValueFactory<>("index"));
-        LAL_name.setCellValueFactory(new PropertyValueFactory<>("label"));
+        LAL_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         LAL_line_from.setCellValueFactory(new PropertyValueFactory<>("lineFrom"));
         LAL_line_to.setCellValueFactory(new PropertyValueFactory<>("lineTo"));
 
@@ -200,13 +203,11 @@ public class Controller {
     }
 
     private void event_menu_run_lexical_analyser() {
-        this.menu_run_lexical_analyser.setOnAction(event -> {
-            run_lexical_analysis();
-        });
+        this.menu_run_lexical_analyser.setOnAction(event -> run_lexical_analysis());
     }
 
     private void run_lexical_analysis() {
-        lexicalAnalyzer.run(codeArea.getText());
+        scanTablesStorage = scanner.run(codeArea.getText());
         setLA_tokens_table();
         setLA_identifiers_table();
         setLA_constants_table();
@@ -223,7 +224,7 @@ public class Controller {
     }
 
     private void run_parsing() {
-        parser = new Parser(lexicalAnalyzer, precedence);
+        parser = new Parser(scanTablesStorage, precedence);
         parser.run();
         setParsing_table();
         setParsing_errors_table();
@@ -270,27 +271,27 @@ public class Controller {
     }
 
     private void setLA_tokens_table() {
-        ObservableList<Lexeme> lexemes = FXCollections.observableArrayList(lexicalAnalyzer.getTokenTable());
+        ObservableList<Lexeme> lexemes = FXCollections.observableArrayList(scanTablesStorage.getLexemeTable());
         LA_tokens_table.setItems(lexemes);
     }
 
     private void setLA_identifiers_table() {
-        ObservableList<Identifier> identifiers = FXCollections.observableArrayList(lexicalAnalyzer.getIdentTable());
+        ObservableList<Identifier> identifiers = FXCollections.observableArrayList(scanTablesStorage.getIdentifiersTable());
         LA_identifiers_table.setItems(identifiers);
     }
 
     private void setLA_constants_table() {
-        ObservableList<Constant> constants = FXCollections.observableArrayList(lexicalAnalyzer.getConstTable());
+        ObservableList<Constant> constants = FXCollections.observableArrayList(scanTablesStorage.getConstantsTable());
         LA_constants_table.setItems(constants);
     }
 
     private void setLA_labels_table() {
-        ObservableList<lexer.Label> labels = FXCollections.observableArrayList(lexicalAnalyzer.getLabelTable());
+        ObservableList<Label> labels = FXCollections.observableArrayList(scanTablesStorage.getLabelsTable());
         LA_labels_table.setItems(labels);
     }
 
     private void setLA_errors_table() {
-        ObservableList<LexicalError> errors = FXCollections.observableArrayList(lexicalAnalyzer.getLexicalErrors());
+        ObservableList<LexicalError> errors = FXCollections.observableArrayList(scanTablesStorage.getScanErrorsTable());
         LA_errors_table.setItems(errors);
         if (!errors.isEmpty()) {
             LA_errors_tab.setStyle("-fx-color: red");
@@ -301,7 +302,7 @@ public class Controller {
     }
 
     private void setParsing_table() {
-        ObservableList<ParsingTableRow> tableRows = FXCollections.observableArrayList(parser.getParsingTable().getParsingTableRows());
+        ObservableList<ParsingTableRow> tableRows = FXCollections.observableArrayList(parser.getParsingTable());
         parsing_table.setItems(tableRows);
     }
 

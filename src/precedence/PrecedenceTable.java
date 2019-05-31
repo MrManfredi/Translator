@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class PrecedenceTable {
+abstract class PrecedenceTable {
 
     private static String getHtmlCode(PrecedenceStorage precedenceStorage) {
         StringBuilder builder = new StringBuilder();
@@ -89,7 +89,7 @@ public abstract class PrecedenceTable {
         return builder.toString();
     }
 
-    public static void createHtmlFile(PrecedenceStorage precedenceStorage, String pathname) {
+    static void createHtmlFile(PrecedenceStorage precedenceStorage, String pathname) {
         File fileHTML = new File(pathname);
         try {
             FileWriter writer = new FileWriter(fileHTML);

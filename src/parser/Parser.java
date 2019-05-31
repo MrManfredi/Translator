@@ -7,10 +7,11 @@ import errors.syntactic.SyntaxError;
 import grammar.Grammar;
 import grammar.GrammarParser;
 import grammar.RightSide;
-import lexer.IdentifierType;
-import lexer.Lexeme;
-import lexer.LexemeType;
-import lexer.LexicalAnalyzer;
+import constants.IdentifierType;
+import lexer.ScanTablesStorage;
+import lexer.values.Lexeme;
+import constants.LexemeType;
+import lexer.Scanner;
 import precedence.Precedence;
 import precedence.PrecedenceStorage;
 import precedence.RatioType;
@@ -19,12 +20,10 @@ import java.util.*;
 
 public class Parser {
     // global
-    private LexicalAnalyzer scanner;
-    private Precedence precedence;
     private PrecedenceStorage precedenceStorage;
     private HashMap<RightSide, String> reverseRules;
     // for table
-    private ParsingTable parsingTable;
+    private ArrayList<ParsingTableRow> parsingTable;
     private Integer currentId;
     private Stack<Unit> currentStack;
     private RatioType currentRatio;
@@ -33,15 +32,12 @@ public class Parser {
     // error
     private SyntaxError syntaxError;
 
-    public Parser(LexicalAnalyzer scanner, Precedence precedence) {
-        this.scanner = scanner;
-
-        if (!scanner.getLexicalErrors().isEmpty()) {
+    public Parser(ScanTablesStorage scanTables, Precedence precedence) {
+        if (!scanTables.getScanErrorsTable().isEmpty()) {
             syntaxError = new SyntacticAnalysisRejectedError("There is errors in lexical analysis.");
-        } else if (scanner.getTokenTable().isEmpty()) {
+        } else if (scanTables.getLexemeTable().isEmpty()) {
             syntaxError = new SyntacticAnalysisRejectedError("Source code is empty.");
         } else {
-            this.precedence = precedence;
             precedenceStorage = precedence.getPrecedenceStorage();
             reverseRules = precedence.getGrammar().getReverseRules();
             //
@@ -51,43 +47,44 @@ public class Parser {
             currentStack = new Stack<>();
             currentRatio = null;
             // sharp in the beginning of the source sequence
-            scanner.getTokenTable().add(0, new Lexeme(0, scanner.getTokenTable().get(0).getLine(), Sharp.name(), Sharp.code(), null));
-            sourceSequence  = new LinkedList<>(scanner.getTokenTable());
+            scanTables.getLexemeTable().add(0, new Lexeme(0, scanTables.getLexemeTable().get(0).getLine(), Sharp.name(), Sharp.code(), null));
+            sourceSequence  = new LinkedList<>(scanTables.getLexemeTable());
             // sharp in the end of the source sequence
-            Lexeme lastLexeme = scanner.getTokenTable().get(sourceSequence.size() - 1);
+            Lexeme lastLexeme = scanTables.getLexemeTable().get(sourceSequence.size() - 1);
             sourceSequence.add(new Lexeme(lastLexeme.getId() + 1, lastLexeme.getLine(), Sharp.name(), Sharp.code(), null));
             currentBasisStack = new Stack<>();
             syntaxError = null;
         }
-        parsingTable = new ParsingTable();
+        parsingTable = new ArrayList<>();
     }
 
-    public void run() {
+    public boolean run() {
         while (syntaxError == null && sourceSequence.size() > 1) {
             if (!readFromSequenceToStack()) {
                 break;
             }
 
-            parsingTable.addRow(new ParsingTableRow(currentId, currentStack, currentRatio, sourceSequence, new RightSide(currentBasisStack)));
+            parsingTable.add(new ParsingTableRow(currentId, currentStack, currentRatio, sourceSequence, new RightSide(currentBasisStack)));
             currentId++;
 
             compress();
         }
+        return syntaxError == null;
     }
 
     private String getName(Lexeme lexeme) {
-        if (lexeme.getCode() == LexemeType.IDENT.getValue()) {
+        if (lexeme.isIdentifier()) {
             return LexemeType.IDENT.getName();
-        } else if (lexeme.getCode() == LexemeType.CONST.getValue()) {
+        } else if (lexeme.isConstant()) {
             return LexemeType.CONST.getName();
-        } else if (lexeme.getCode() == LexemeType.LABEL.getValue()) {
+        } else if (lexeme.isLabel()) {
             return LexemeType.LABEL.getName();
         } else if (lexeme.getCode() == IdentifierType.INT.getValue()) {
             return IdentifierType.INT.getName();
-        } else if (lexeme.getText().equals("¶")) {
+        } else if (lexeme.getName().equals("¶")) {
             return "NL";
         } else {
-            return lexeme.getText();
+            return lexeme.getName();
         }
     }
 
@@ -135,12 +132,12 @@ public class Parser {
             }
 
             currentStack.push(new Unit(currentTransitionalWord, currentRatio));
-            parsingTable.addRow(new ParsingTableRow(currentId, currentStack, currentRatio, sourceSequence, currentBasis));
+            parsingTable.add(new ParsingTableRow(currentId, currentStack, currentRatio, sourceSequence, currentBasis));
             currentId++;
         }
     }
 
-    public ParsingTable getParsingTable() {
+    public ArrayList<ParsingTableRow> getParsingTable() {
         return parsingTable;
     }
 
@@ -149,11 +146,11 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        LexicalAnalyzer lexer = new LexicalAnalyzer();
-        lexer.run("int i\n{ i = 5\n}\n");
+        Scanner lexer = new Scanner();
+        ScanTablesStorage scanTablesStorage = lexer.run("int i\n{ i = 5\n}\n");
         Grammar grammar = GrammarParser.parse("res/grammar.json");
         Precedence precedence = new Precedence(grammar);
-        Parser parser = new Parser(lexer, precedence);
+        Parser parser = new Parser(scanTablesStorage, precedence);
         parser.run();
         System.out.println();
     }

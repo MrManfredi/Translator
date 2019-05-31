@@ -1,21 +1,21 @@
-package lexer;
+package lexer.values;
 
-public class Label {
+public class Label implements NameableValue{
 
-    private String label;
+    private String name;
     private int index;
     private int lineFrom;
     private int lineTo;
 
-    public Label(String label, int index) {
-        this.label = label;
+    public Label(String name, int index) {
+        this.name = name;
         this.index = index;
         lineFrom = -1;
         lineTo = -1;
     }
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
     public int getIndex() {

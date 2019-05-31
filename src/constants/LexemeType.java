@@ -1,4 +1,4 @@
-package lexer;
+package constants;
 
 public enum LexemeType{
     IDENT(100, "Identifier"),

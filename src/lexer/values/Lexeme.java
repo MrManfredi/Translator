@@ -1,16 +1,18 @@
-package lexer;
+package lexer.values;
 
-public class Lexeme {
+import constants.LexemeType;
+
+public class Lexeme implements NameableValue{
     private int id;
     private int line;
-    private String text;
+    private String name;
     private int code;
     private Integer specialCode;
 
-    public Lexeme(int id, int line, String text, int code, Integer specialCode) {
+    public Lexeme(int id, int line, String name, int code, Integer specialCode) {
         this.id = id;
         this.line = line;
-        this.text = text;
+        this.name = name;
         this.code = code;
         this.specialCode = specialCode;
     }
@@ -23,8 +25,8 @@ public class Lexeme {
         this.line = line;
     }
 
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
     }
 
     public int getCode() {
@@ -51,8 +53,20 @@ public class Lexeme {
         return (code == LexemeType.LABEL.getValue()) ? specialCode : null;
     }
 
+    public boolean isIdentifier() {
+        return code == LexemeType.IDENT.getValue();
+    }
+
+    public boolean isConstant() {
+        return code == LexemeType.CONST.getValue();
+    }
+
+    public boolean isLabel() {
+        return code == LexemeType.LABEL.getValue();
+    }
+
     @Override
     public String toString() {
-        return text;
+        return name;
     }
 }

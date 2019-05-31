@@ -1,7 +1,7 @@
 package parser;
 
 import grammar.RightSide;
-import lexer.Lexeme;
+import lexer.values.Lexeme;
 import precedence.RatioType;
 
 import java.util.*;
