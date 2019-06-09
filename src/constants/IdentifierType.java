@@ -1,7 +1,7 @@
 package constants;
 
 public enum IdentifierType {
-    INT(Keywords.getInstance().getIndex("int"));
+    INT(GrammarKeywords.getInstance().getIndex("int"));
     private int value;
     private final static String name = "Type";
 

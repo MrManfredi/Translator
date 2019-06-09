@@ -1,8 +1,9 @@
 package lexer;
 
 import constants.IdentifierType;
-import constants.Keywords;
+import constants.GrammarKeywords;
 import constants.LexemeType;
+import constants.Statements;
 import errors.lexical.*;
 import lexer.values.Constant;
 import lexer.values.Identifier;
@@ -32,11 +33,11 @@ public class Scanner {
     private String lastType; // using only after isDeclaration() method
 
     public Scanner() {
-        OP = new ArrayList<Character>(Arrays.asList('+', '*', '/', '^', ',', '?', ':', '(', ')', '{', '}'));
+        OP = new ArrayList<>(Arrays.asList('+', '*', '/', '^', ',', '?', ':', '(', ')', '{', '}'));
         builder = new StringBuilder();
     }
 
-    public void init() {
+    private void init() {
         currentCharIndex = 0;
         indexIdent = 0;
         indexConst = 0;
@@ -48,7 +49,7 @@ public class Scanner {
         identifiersTable = new Table<>();
         constantsTable = new Table<>();
         labelsTable = new Table<>();
-        scanErrorsTable = new ArrayList<LexicalError>();
+        scanErrorsTable = new ArrayList<>();
     }
 
     public ScanTablesStorage run(String text) {
@@ -59,7 +60,7 @@ public class Scanner {
         if (scanErrorsTable.isEmpty()) {
             return new ScanTablesStorage(lexemeTable, identifiersTable, constantsTable, labelsTable, scanErrorsTable);
         } else {
-            return new ScanTablesStorage(new ArrayList<Lexeme>(), new Table<>(), new Table<>(), new Table<>(), scanErrorsTable);
+            return new ScanTablesStorage(new ArrayList<>(), new Table<>(), new Table<>(), new Table<>(), scanErrorsTable);
         }
     }
 
@@ -108,7 +109,7 @@ public class Scanner {
         } else if (tmp == ':') {
             state11();  // label
         } else {
-            if (Keywords.getInstance().containsKey(builder.toString())) {
+            if (GrammarKeywords.getInstance().containsKey(builder.toString())) {
                 addToken();
             } else {
                 Identifier tempIdentifier;
@@ -211,8 +212,10 @@ public class Scanner {
         }
     }
 
+    // newline
     private void state10() {
-        lexemeTable.add(new Lexeme(currentId++, line, "¶", Keywords.getInstance().getIndex("\n"), null));
+        String newline = Statements.NEWLINE.getName();
+        lexemeTable.add(new Lexeme(currentId++, line, newline, GrammarKeywords.getInstance().getIndex(newline), null));
     }
 
     private void state11()    // label
@@ -236,31 +239,28 @@ public class Scanner {
     }
 
     private boolean hasNextChar() {
-        if (code.length() > currentCharIndex + 1) {
-            return true;
-        }
-        return false;
+        return code.length() > currentCharIndex + 1;
     }
 
-    public void clearBuilder() {
+    private void clearBuilder() {
         if (builder.length() > 0) {
             builder.delete(0, builder.length());
         }
     }
 
-    public void addToken() {
-        lexemeTable.add(new Lexeme(currentId++, line, builder.toString(), Keywords.getInstance().getIndex(builder.toString()), null));
+    private void addToken() {
+        lexemeTable.add(new Lexeme(currentId++, line, builder.toString(), GrammarKeywords.getInstance().getIndex(builder.toString()), null));
     }
 
-    public void addToken(Identifier ident) {
+    private void addToken(Identifier ident) {
         lexemeTable.add(new Lexeme(currentId++, line, builder.toString(), LexemeType.IDENT.getValue(), ident.getIndex()));
     }
 
-    public void addToken(Constant constant) {
+    private void addToken(Constant constant) {
         lexemeTable.add(new Lexeme(currentId++, line, builder.toString(), LexemeType.CONST.getValue(), constant.getIndex()));
     }
 
-    public void addToken(Label label) {
+    private void addToken(Label label) {
         lexemeTable.add(new Lexeme(currentId++, line, builder.toString(), LexemeType.LABEL.getValue(), label.getIndex()));
     }
 

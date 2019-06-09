@@ -2,23 +2,34 @@ package constants;
 
 import java.util.HashMap;
 
-public class Keywords extends HashMap<String, Keywords.Value>{
+public class GrammarKeywords extends HashMap<String, GrammarKeywords.Value>{
 
-    private static Keywords instance = new Keywords();
+    private static GrammarKeywords instance = new GrammarKeywords();
 
 
-    public static Keywords getInstance() {
+    public static GrammarKeywords getInstance() {
         return instance;
     }
 
-    private Keywords() {
+    private GrammarKeywords() {
         int index = 1;
-        put("{", new Value(index++, null));
-        put("}", new Value(index++, null));
         put("int", new Value(index++, null));
+        put("{", new Value(index++, 0));
         put("(", new Value(index++, 0));
+        put(Statements.IF.getName(), new Value(index++, 0));
+        put(Statements.REPEAT.getName(), new Value(index++, 0));
+        put(Statements.UNTIL.getName(), new Value(index++, 1));
         put(")", new Value(index++, 1));
+        put("}", new Value(index++, 1));
+        put(Statements.NEWLINE.getName(), new Value(index++, 1));
+        put(Statements.GOTO.getName(), new Value(index++, 1));
+        put("?", new Value(index++, 2));
+        put(":", new Value(index++, 2));
         put("=", new Value(index++, 2));
+        put(">>", new Value(index++, 2));
+        put("<<", new Value(index++, 2));
+        put(Statements.IN.getName(), new Value(index++, 2));
+        put(Statements.OUT.getName(), new Value(index++, 2));
         put("or", new Value(index++, 3));
         put("and", new Value(index++, 4));
         put("not", new Value(index++, 5));
@@ -29,22 +40,11 @@ public class Keywords extends HashMap<String, Keywords.Value>{
         put(">=", new Value(index++, 6));
         put(">", new Value(index++, 6));
         put("+", new Value(index++, 7));
-        put("-", new Value(index++, 7));
+        put(Statements.MINUS.getName(), new Value(index++, 7));
         put("/", new Value(index++, 8));
         put("*", new Value(index++, 8));
-        put("@", new Value(null, 8));  // unary minus
-        put(">>", new Value(index++, null));
-        put("<<", new Value(index++, null));
-        put("in", new Value(index++, null));
-        put("out", new Value(index++, null));
-        put("repeat", new Value(index++, null));
-        put("until", new Value(index++, null));
-        put("if", new Value(index++, null));
-        put("goto", new Value(index++, null));
-        put(",", new Value(index++, null));
-        put("?", new Value(index++, null));
-        put(":", new Value(index++, null));
-        put("\n", new Value(index, null));
+        put(Statements.UNARY_MINUS.getName(), new Value(null, 8));
+        put(",", new Value(index, null));
 
     }
 
