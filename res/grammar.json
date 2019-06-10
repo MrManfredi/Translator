@@ -7,7 +7,7 @@
   "StatementsList": [["Statement", "NL_List2"], ["StatementsList", "Statement", "NL_List2"]],
   "Statement": [["ConditionalTransition"], ["Cycle"], ["Appropriation"], ["Input"], ["Output"], ["Label"], ["TernaryStatement"]],
   "Cycle": [["repeat", "StatementsList2", "until",  "LE2"]],
-  "ConditionalTransition": [["if", "(", "LE2", ")", "goto", "Label"]],
+  "ConditionalTransition": [["if", "LE2", "goto", "Label"]],
   "Appropriation": [["Identifier", "=", "Expression3"]],
   "TernaryStatement": [["Identifier", "=", "LE2", "?", "Expression3", ":", "Expression3"]],
   "LE2": [["LogicalExpression"]],

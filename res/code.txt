@@ -1,11 +1,11 @@
-int mark, plus
+int mark, var
 {       prettyPlace:
         in >> mark
-        if (mark >= 60) goto nice:
-        plus = 10
-        repeat mark = -(2 + plus)
-        until (mark < 60)
+        var = 10
+        repeat mark = - (var / 2 - 3 * var) + mark
+        until (mark > 60)
+	out << mark
         if (mark <= 85) goto prettyPlace:
-        nice:
-        mark = (plus <= 20) ? 1 : 100
+        mark = (var <= 20) ? 1 : 100
+	out << mark
 }

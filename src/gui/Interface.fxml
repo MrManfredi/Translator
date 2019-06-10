@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -17,6 +20,7 @@
                     <items>
                         <MenuItem fx:id="menu_run_lexical_analyser" mnemonicParsing="false" text="Lexical Analyser" />
                   <MenuItem fx:id="menu_run_parser" mnemonicParsing="false" text="Parser" />
+                  <MenuItem fx:id="menu_run_poliz" mnemonicParsing="false" text="POLIZ" />
                         <MenuItem mnemonicParsing="false" text="Run" />
                     </items>
                 </Menu>
@@ -167,6 +171,46 @@
                                         </Tab>
                                       </tabs>
                                     </TabPane>
+                                 </content>
+                              </Tab>
+                              <Tab text="POLIZ">
+                                 <content>
+                                    <VBox>
+                                       <children>
+                                          <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                                            <tabs>
+                                              <Tab text="Building">
+                                                   <content>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <TextArea fx:id="POLIZ_building_area" editable="false" minHeight="-Infinity" prefHeight="50.0" prefWidth="445.0" VBox.vgrow="NEVER" />
+                                                         </children>
+                                                      </VBox>
+                                                   </content>
+                                                </Tab>
+                                              <Tab text="Execution">
+                                                   <content>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label prefHeight="17.0" prefWidth="105.0" text="Input">
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                               </padding>
+                                                            </Label>
+                                                            <TextArea fx:id="POLIZ_execution_input" prefHeight="145.0" prefWidth="445.0" />
+                                                            <Label layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="105.0" text="Output">
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                               </padding>
+                                                            </Label>
+                                                            <TextArea fx:id="POLIZ_execution_output" layoutX="10.0" layoutY="37.0" prefHeight="145.0" prefWidth="445.0" />
+                                                         </children>
+                                                      </VBox>
+                                                   </content></Tab>
+                                            </tabs>
+                                          </TabPane>
+                                       </children>
+                                    </VBox>
                                  </content>
                               </Tab>
                                     </tabs>

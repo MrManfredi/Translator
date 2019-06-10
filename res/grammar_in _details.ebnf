@@ -1,28 +1,23 @@
 Program = DeclarationsList "{" NL StatementsList "}".
 DeclarationsList = Declaration NL {Declaration NL}.
 Declaration = Type Identifier { "," Identifier}.
-StatementsList = Statement {Statement}.
+StatementsList = Statement NL {Statement NL}.
 Statement = ConditionalTransition | Cycle | Appropriation | Input | Output | Label.
-
-Cycle = "repeat" "{" StatementsList "}" "until" "("LogicalExpression")".
-ConditionalTransition = "if" "(" LogicalExpression ")" "goto" Label.					
+Cycle = "repeat" StatementsList "until" LogicalExpression.
+ConditionalTransition = "if" LogicalExpression "goto" Label.					
 Appropriation = Identifier "=" Expression.
 TernaryStatement = Identifier "=" LogicalExpression "?" Expression ":" Expression.
-
 LogicalExpression = ["not"] ((Expression ComparisonMark Expression) | "(" LogicalExpression ")") [("and" | "or") LogicalExpression].
-
-Expression = Term {("+" | "-") Term}.
+Expression = ["-"] Term {("+" | "-") Term}.
 Term = Multiplier {("*" | "/") Multiplier}.
 Multiplier = Identifier | Constant | "("Expression")".
-
 Input = "in" ">>" Identifier {">>" Identifier}.
 Output = "out" "<<" Expression {"<<" Expression}.
 Label = Identifier ":".
 Identifier = Letter {Letter | Digit}.
-Constant = [UnaryMinus] NonZero {Digit}.
+Constant = ["-"] Digit {Digit}.
 Letter = "A" | "a" | "B" | "b" | "C" | "c" | "..." | "Z" | "z".
 Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6"| "7" | "8" | "9".
 ComparisonMark = "<" | "<=" | "==" | "!=" | ">" | ">=".
 BinaryOperator = "*" | "\" | "+" | "-" | "^".
-UnaryMinus = "-".
 NL = "\n".

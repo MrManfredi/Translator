@@ -1,5 +1,6 @@
 package parser;
 
+import constants.Sharp;
 import errors.syntactic.NoRatioBetweenTokensError;
 import errors.syntactic.RuleNotFoundError;
 import errors.syntactic.SyntacticAnalysisRejectedError;

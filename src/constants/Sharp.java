@@ -1,4 +1,4 @@
-package parser;
+package constants;
 
 public class Sharp {
     private static final int code = 99;

@@ -4,7 +4,7 @@ import grammar.Grammar;
 import grammar.GrammarParser;
 import grammar.RightSide;
 import grammar.Rule;
-import parser.Sharp;
+import constants.Sharp;
 
 import java.util.*;
 

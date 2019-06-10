@@ -21,6 +21,7 @@ import lexer.values.Label;
 import parser.Parser;
 import parser.ParsingTableRow;
 import parser.Unit;
+import porn.ReversePolishNotationGenerator;
 import precedence.Precedence;
 import precedence.RatioType;
 
@@ -37,6 +38,7 @@ public class Controller {
     private ScanTablesStorage scanTablesStorage;
     private Precedence precedence;
     private Parser parser;
+    private List<String> porn;
 
     // Menu panel
 
@@ -53,6 +55,9 @@ public class Controller {
 
     @FXML
     private MenuItem menu_run_parser;
+
+    @FXML
+    private MenuItem menu_run_poliz;
 
     // code area
     @FXML
@@ -144,6 +149,11 @@ public class Controller {
     @FXML
     private TableColumn<SyntaxError, String> PE_message;
 
+    /* PORN */
+
+    // porn builder area
+    @FXML
+    private TextArea POLIZ_building_area;
 
     @FXML
     void initialize() {
@@ -156,6 +166,21 @@ public class Controller {
         event_menu_file_save();
         event_menu_run_lexical_analyser();
         event_menu_run_parser();
+        event_menu_run_poliz();
+        event_LA_errors_setDefaultOnSelection();
+        event_P_errors_setDefaultOnSelection();
+    }
+
+    private void event_P_errors_setDefaultOnSelection() {
+        parser_errors_tab.setOnSelectionChanged(event -> {
+            parser_errors_tab.setStyle("-fx-color: #dddddd");
+        });
+    }
+
+    private void event_LA_errors_setDefaultOnSelection() {
+        LA_errors_tab.setOnSelectionChanged(event -> {
+            LA_errors_tab.setStyle("-fx-color: #dddddd");
+        });
     }
 
     private void initGrammar() {
@@ -223,11 +248,30 @@ public class Controller {
         });
     }
 
-    private void run_parsing() {
+    private void event_menu_run_poliz() {
+        this.menu_run_poliz.setOnAction(event -> {
+            run_lexical_analysis();
+            if (run_parsing()) {
+                run_porn_generator();
+                POLIZ_building_area.setText(porn.toString());
+            }
+            else {
+                POLIZ_building_area.setText("Reverse polish notation generation was rejected. There is errors in syntactic analysis.");
+            }
+        });
+    }
+
+    private void run_porn_generator() {
+        ReversePolishNotationGenerator pornGenerator = new ReversePolishNotationGenerator(scanTablesStorage.getLexemeTable());
+        porn = pornGenerator.run();
+    }
+
+    private boolean run_parsing() {
         parser = new Parser(scanTablesStorage, precedence);
-        parser.run();
+        boolean result = parser.run();
         setParsing_table();
         setParsing_errors_table();
+        return result;
     }
 
     private void clear_parsing_tables() {
